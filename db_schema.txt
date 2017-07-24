@@ -1,0 +1,149 @@
+// This is the current implementation of our H2 database with SQL queries we used to create each table, and each index
+
+CREATE TABLE User (
+  userID int NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  alma_mater VARCHAR(75),
+  major VARCHAR(50),
+  gpa NUMERIC( 3, 2 ),
+  email VARCHAR(75) NOT NULL,
+  age int,
+  location VARCHAR(75),
+  searching BOOLEAN,
+  PRIMARY KEY ( userID )
+);
+CREATE INDEX gpa_index ON User(gpa); // Companies will wish to filter out applicants by their GPA
+
+CREATE TABLE Company (
+  companyID int NOT NULL AUTO_INCREMENT,
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(100),
+  hiring BOOLEAN,
+  PRIMARY KEY (companyID)
+);
+CREATE INDEX company_index ON Company(name); // companies will be searched for by name
+
+CREATE TABLE Phone (
+  userID int NOT NULL,
+  number NUMERIC(10, 0) NOT NULL,
+  type VARCHAR(5),
+  PRIMARY KEY (userId, number),
+  FOREIGN KEY ( userID ) REFERENCES User,
+  CHECK type in ( 'cell', 'work', 'home', 'other' )
+);
+
+CREATE TABLE Past_Job (
+  userID int NOT NULL,
+  companyID int NOT NULL,
+  role VARCHAR(50),
+  PRIMARY KEY (userID, companyID, role),
+  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (companyID) REFERENCES Company
+);
+
+CREATE TABLE Activity (
+  name VARCHAR(50) NOT NULL,
+  organization VARCHAR(75) NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  userID int,
+  PRIMARY KEY (name, organization, role),
+  FOREIGN KEY (userID) REFERENCES User
+);
+
+CREATE TABLE Skill (
+  name VARCHAR(50) NOT NULL,
+  description VARCHAR(100),
+  userID int,
+  PRIMARY KEY (name),
+  FOREIGN KEY (userID) REFERENCES User
+);
+
+CREATE TABLE Endorses (
+  endorserID int NOT NULL,
+  userID int NOT NULL,
+  skill VARCHAR(50) NOT NULL,
+  PRIMARY KEY (endorserID, userID, skill),
+  FOREIGN KEY (endorserID) REFERENCES User,
+  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (skill) REFERENCES Skill
+);
+
+CREATE TABLE Follows (
+  userID int NOT NULL,
+  companyID int NOT NULL,
+  PRIMARY KEY (userID, companyID),
+  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (companyID) REFERENCES Company
+);
+
+CREATE TABLE Prefers (
+  userID int NOT NULL,
+  city VARCHAR(50) NOT NULL,
+  state VARCHAR(50) NOT NULL,
+  PRIMARY KEY (userID, city, state),
+  FOREIGN KEY (userID) REFERENCES User
+);
+
+CREATE TABLE Office (
+  companyID int NOT NULL,
+  city VARCHAR(50),
+  state VARCHAR(50),
+  PRIMARY KEY (companyID, city, state),
+  FOREIGN KEY (companyID) REFERENCES Company
+);
+CREATE INDEX state_index ON Office(state); // Users will want to see all companies in their state
+
+CREATE TABLE Comp_Phone (
+  companyID int NOT NULL,
+  number NUMERIC(10, 0) NOT NULL,
+  type VARCHAR(5),
+  PRIMARY KEY (companyID, number),
+  FOREIGN KEY (companyID) REFERENCES Company,
+  CHECK type in ( 'cell', 'work', 'home', 'other' )
+);
+
+CREATE TABLE Associates (
+  CID1 int NOT NULL,
+  CID2 int NOT NULL,
+  PRIMARY KEY (CID1, CID2),
+  FOREIGN KEY (CID1) REFERENCES Company,
+  FOREIGN KEY (CID2) REFERENCES Company
+);
+
+CREATE TABLE Job (
+  companyID int NOT NULL,
+  role VARCHAR(50) NOT NULL,
+  salary int,
+  description VARCHAR(100),
+  startDate DATE,
+  endDate Date,
+  PRIMARY KEY (companyID, role),
+  FOREIGN KEY (companyID) REFERENCES Company
+);
+CREATE INDEX salary_index ON Job(salary); // users will likely search for jobs in a given salary range frequently
+
+CREATE TABLE Employs(
+  companyID int NOT NULL,
+  userID int NOT NULL,
+  PRIMARY KEY (companyID, userID),
+  FOREIGN KEY (companyID) REFERENCES Company,
+  FOREIGN KEY (userID) REFERENCES User
+);
+
+
+CREATE TABLE Review (
+  userID int NOT NULL,
+  companyID int NOT NULL,
+  role VARCHAR(50),
+  employment_type VARCHAR(10),
+  duration int,
+  description VARCHAR(100),
+  pros VARCHAR(100),
+  cons VARCHAR(100),
+  recommend BOOLEAN,
+  PRIMARY KEY (userID, companyID),
+  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (companyID) REFERENCES Company,
+  FOREIGN KEY (companyID, role) REFERENCES Job
+);
+
