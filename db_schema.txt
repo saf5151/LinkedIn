@@ -1,25 +1,35 @@
 // This is the current implementation of our H2 database with SQL queries we used to create each table, and each index
 
 CREATE TABLE User (
+  email VARCHAR( 100 ),
+  password VARCHAR( 20 ),
+  PRIMARY KEY ( email ),
+)
+
+CREATE TABLE Employee (
   userID int NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   alma_mater VARCHAR(75),
   major VARCHAR(50),
   gpa NUMERIC( 3, 2 ),
-  email VARCHAR(75) NOT NULL,
+  email VARCHAR(75) NOT NULL UNIQUE,
   age int,
-  location VARCHAR(75),
+  city VARCHAR(75),
+  state CHAR(2),
   searching BOOLEAN,
-  PRIMARY KEY ( userID )
+  PRIMARY KEY ( userID ),
+  FOREIGN KEY ( email ) REFERENCES User
 );
-CREATE INDEX gpa_index ON User(gpa); // Companies will wish to filter out applicants by their GPA
+CREATE INDEX gpa_index ON Employee(gpa); // Companies will wish to filter out applicants by their GPA
 
 CREATE TABLE Company (
   companyID int NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   description VARCHAR(100),
+  email VARCHAR(75) NOT NULL UNIQUE,
   hiring BOOLEAN,
   PRIMARY KEY (companyID)
+  FOREIGN KEY ( email ) REFERENCES User
 );
 CREATE INDEX company_index ON Company(name); // companies will be searched for by name
 
@@ -28,7 +38,7 @@ CREATE TABLE Phone (
   number NUMERIC(10, 0) NOT NULL,
   type VARCHAR(5),
   PRIMARY KEY (userId, number),
-  FOREIGN KEY ( userID ) REFERENCES User,
+  FOREIGN KEY ( userID ) REFERENCES Employee,
   CHECK type in ( 'cell', 'work', 'home', 'other' )
 );
 
@@ -36,26 +46,18 @@ CREATE TABLE Past_Job (
   userID int NOT NULL,
   companyID int NOT NULL,
   role VARCHAR(50),
+  description VARCHAR( 200 ),
   PRIMARY KEY (userID, companyID, role),
-  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (userID) REFERENCES Employee,
   FOREIGN KEY (companyID) REFERENCES Company
-);
-
-CREATE TABLE Activity (
-  name VARCHAR(50) NOT NULL,
-  organization VARCHAR(75) NOT NULL,
-  role VARCHAR(50) NOT NULL,
-  userID int,
-  PRIMARY KEY (name, organization, role),
-  FOREIGN KEY (userID) REFERENCES User
 );
 
 CREATE TABLE Skill (
   name VARCHAR(50) NOT NULL,
   description VARCHAR(100),
   userID int,
-  PRIMARY KEY (name),
-  FOREIGN KEY (userID) REFERENCES User
+  PRIMARY KEY (name, userID),
+  FOREIGN KEY (userID) REFERENCES Employee
 );
 
 CREATE TABLE Endorses (
@@ -63,31 +65,23 @@ CREATE TABLE Endorses (
   userID int NOT NULL,
   skill VARCHAR(50) NOT NULL,
   PRIMARY KEY (endorserID, userID, skill),
-  FOREIGN KEY (endorserID) REFERENCES User,
-  FOREIGN KEY (userID) REFERENCES User,
-  FOREIGN KEY (skill) REFERENCES Skill
+  FOREIGN KEY (endorserID) REFERENCES Employee,
+  FOREIGN KEY (userID) REFERENCES Employee,
+  FOREIGN KEY (skill, userID) REFERENCES Skill
 );
 
 CREATE TABLE Follows (
   userID int NOT NULL,
   companyID int NOT NULL,
   PRIMARY KEY (userID, companyID),
-  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (userID) REFERENCES Employee,
   FOREIGN KEY (companyID) REFERENCES Company
-);
-
-CREATE TABLE Prefers (
-  userID int NOT NULL,
-  city VARCHAR(50) NOT NULL,
-  state VARCHAR(50) NOT NULL,
-  PRIMARY KEY (userID, city, state),
-  FOREIGN KEY (userID) REFERENCES User
 );
 
 CREATE TABLE Office (
   companyID int NOT NULL,
   city VARCHAR(50),
-  state VARCHAR(50),
+  state CHAR(2),
   PRIMARY KEY (companyID, city, state),
   FOREIGN KEY (companyID) REFERENCES Company
 );
@@ -115,8 +109,6 @@ CREATE TABLE Job (
   role VARCHAR(50) NOT NULL,
   salary int,
   description VARCHAR(100),
-  startDate DATE,
-  endDate Date,
   PRIMARY KEY (companyID, role),
   FOREIGN KEY (companyID) REFERENCES Company
 );
@@ -127,23 +119,23 @@ CREATE TABLE Employs(
   userID int NOT NULL,
   PRIMARY KEY (companyID, userID),
   FOREIGN KEY (companyID) REFERENCES Company,
-  FOREIGN KEY (userID) REFERENCES User
+  FOREIGN KEY (userID) REFERENCES Employee
 );
-
 
 CREATE TABLE Review (
   userID int NOT NULL,
   companyID int NOT NULL,
-  role VARCHAR(50),
-  employment_type VARCHAR(10),
-  duration int,
   description VARCHAR(100),
-  pros VARCHAR(100),
-  cons VARCHAR(100),
   recommend BOOLEAN,
   PRIMARY KEY (userID, companyID),
-  FOREIGN KEY (userID) REFERENCES User,
+  FOREIGN KEY (userID) REFERENCES Employee,
   FOREIGN KEY (companyID) REFERENCES Company,
-  FOREIGN KEY (companyID, role) REFERENCES Job
 );
 
+CREATE TABLE Connect (
+  IDA int NOT NULL,
+  IDB int NOT NULL,
+  PRIMARY KEY ( IDA, IDB ),
+  FOREIGN KEY ( IDA ) REFERENCES Employee,
+  FOREIGN KEY ( IDB ) REFERENCES Employee
+);
