@@ -1,28 +1,87 @@
-import java.sql.Connection; // FIXME might not be necessary
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.util.Scanner;
 
-public class Employee extends User
-{
-    private int id;
-    private String name;
-    private String almaMater;
-    private String major;
-    private double gpa;
-    private String email;
-    private int age;
-    private String city;
-    private String state;
-    private boolean searching;
-
-    /**
+public class Employee extends User {
+	private int id, age;
+	private String email;
+	private String almaMater;
+	private String name;
+	private String major;
+	private String gpaStr;
+	private double gpa;
+	private String [] phone;
+	private String dob;
+	private String[] location;
+	private String city;
+	private String state;
+	private String searchStr;
+	private boolean search;
+	
+	/**
+     * @param email: email of the user registering
+     *	   password: login password
+     * @return: true for completed registration, false for failed registration
+     */
+	public boolean employeeRegisteration(String email, String password) {
+		Scanner Name = new Scanner(System.in);
+		Scanner AlmaMater = new Scanner(System.in);
+		Scanner Major = new Scanner(System.in);
+		Scanner Gpa = new Scanner(System.in);
+		Scanner Phone = new Scanner(System.in);
+		Scanner Dob = new Scanner(System.in);
+		Scanner Location = new Scanner(System.in);
+		Scanner Search = new Scanner(System.in);
+		//System.out.println("Got it from" + email);
+		/* 
+		 * Do we need data validation???
+		 */
+		System.out.println("Full Name: ");
+		name = Name.next();
+		System.out.println("Alma Mater: ");
+		almaMater = AlmaMater.next();
+		System.out.println("Major: ");
+		major = Major.next();
+		System.out.println("GPA: ");
+		gpaStr = Gpa.next();
+		gpa = Double.parseDouble(gpaStr);
+		System.out.println("Phone Number (seperate by comma if multiple): ");
+		phone = (Phone.next()).split(",");
+		System.out.println("Date of Birth (format: MM/DD/YYYY): ");
+		dob = Dob.next();
+		System.out.println("Location (format: city, state): ");
+		location = (Location.next()).split(",");
+		city = location[0];
+		state = location[1];
+		//System.out.println(city);
+		System.out.println("Would you like to be discoverable by employers(y/n)? ");
+		searchStr = Search.next();
+		if (searchStr.equals("y") || searchStr.equals("Y")) {
+			search = true;
+		}else {
+			search = false;
+		}
+		return true;
+		/*
+		 * Update db with employee information
+		 */
+		
+		/*
+		Name.close();
+		AlmaMater.close();
+		Major.close();
+		Gpa.close();
+		Phone.close();
+		Dob.close();
+		Location.close();
+		Search.close();*/
+	}
+	/**
      * @param theirID: the id of the user you wish to make a connection with
      * @return: true on success, false otherwise
      */
     public boolean makeConnection( int theirID )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -32,6 +91,7 @@ public class Employee extends User
     public boolean followCompany( int companyID )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -43,6 +103,7 @@ public class Employee extends User
     public boolean reviewCompany( int companyID, String description, boolean recommended )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -53,6 +114,7 @@ public class Employee extends User
     public boolean endorseSkill( int theirID, String skillName )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -63,6 +125,7 @@ public class Employee extends User
     public boolean addSkill( String name, String description )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -72,6 +135,7 @@ public class Employee extends User
     public boolean deleteSkill( String name )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -83,6 +147,7 @@ public class Employee extends User
     public boolean addPastJob( String role, int companyID, String description )
     {
         // TODO
+    	return true;
     }
 
     /**
@@ -93,6 +158,7 @@ public class Employee extends User
     public boolean deletePastJob( String role, int companyID )
     {
         // TODO
+    	return true;
     }
 
     /** GETTERS */
@@ -127,7 +193,10 @@ public class Employee extends User
     }
 
     public int getAge() {
-        return age;
+    	/* 
+    	 * get dob from db
+    	 */
+    	return age;
     }
 
     public String getCity() {
@@ -139,6 +208,7 @@ public class Employee extends User
     }
 
     public boolean isSearching() {
-        return searching;
+        return search;
     }
 }
+
