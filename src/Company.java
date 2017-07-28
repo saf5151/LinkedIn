@@ -18,6 +18,7 @@ public class Company extends User
     public boolean addAssociate( int theirCompanyID )
     {
         // TODO
+        return false;
     }
 
     /**
@@ -29,6 +30,7 @@ public class Company extends User
     public boolean postJob( String role, int salary, String description )
     {
         // TODO
+        return false;
     }
 
     /**
@@ -38,6 +40,7 @@ public class Company extends User
     public boolean deleteJob( String role )
     {
         // TODO
+        return false;
     }
 
     /**
@@ -48,6 +51,7 @@ public class Company extends User
     public boolean addOffice( String city, String state )
     {
         // TODO
+        return false;
     }
 
     /**
@@ -58,6 +62,7 @@ public class Company extends User
     public boolean deleteOffice( String city, String state )
     {
         // TODO
+        return false;
     }
 
 

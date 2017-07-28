@@ -8,61 +8,106 @@ import java.util.Scanner;
 
 public class ApplicationMain extends User
 {
-    public static void main ( String[] args )
-    {
-    	String caseChoice,user_name,password,email,isEmployee;
-    	Boolean isEmpB,tmp;
-    	isEmpB = null;
-    	System.out.println("\t\t\t\t\t Welcome to Swan Ronson Networking Platform");
-    	Scanner user_input = new Scanner(System.in);
-    	Scanner user_names = new Scanner(System.in);
-    	Scanner passwords = new Scanner(System.in);
-    	Scanner IsEmployee = new Scanner(System.in);
-    	Employee employee = new Employee();
-    	Employer employer = new Employer();
-    	//User user = new User();
-    	for(;;) {
-    		System.out.println("1- Login\n2- Register\n3- Help\n>>>");
-    		//Scanner user_input = new Scanner(System.in);
-    		//caseChoice = user_input.next();
-    		switch (Integer.parseInt(user_input.next())){
-    			case 1:
-    				System.out.println("Email: ");
-    				user_name = user_names.next(); 
-    				System.out.println("Password: ");
-    				password = passwords.next();
-    				/*********************************
-    				 * Quary code to validate login info
-    				*/
-    				break;
-    			case 2:
-    				System.out.println("Email: ");
-    				user_name = user_names.next();
-    				System.out.println("Password: ");
-    				password = passwords.next();
-    				System.out.println("Are you an Employee (y/n)");
-    				isEmployee = IsEmployee.next();
-    				if (isEmployee.equals("y") || isEmployee.equals("Y")) {
-    					//System.out.println("True");
-    					employee.employeeRegisteration(user_name,password);
-    				} else {
-    					//System.out.println("False");
-    					employer.employerRegisteration(user_name, password);
-    				}
-    				
-    				/*********************************
-    				 * Move to Employee and Employer Registration
-    				 */
-    				break;
-    			case 3:
-    				tmp = userLoop("Aziz", "12321", false);
-    				System.out.println("Help");
-    				break;
-    		}
-    		//user_input.close();
-    		//user_names.close();
-    		//passwords.close();
-    	}
+    public static void main ( String[] args ) {
+		String caseChoice, user_name, password, email, isEmployee;
+		Boolean isEmpB, tmp;
+		isEmpB = null;
+		System.out.println("\t\t\t\t\t Welcome to Swan Ronson Networking Platform");
+		Scanner user_input = new Scanner(System.in);
+		Scanner user_names = new Scanner(System.in);
+		Scanner passwords = new Scanner(System.in);
+		Scanner IsEmployee = new Scanner(System.in);
+		Employee employee = new Employee();
+		Employer employer = new Employer();
+		//User user = new User();
+
+		String dbpath = "jdbc:h2:file:C:/Users/Scott/Dropbox/CSCI 320/Linkedin/db/linkedin";
+
+		try
+		{
+			// Connect to the database
+			Class.forName("org.h2.Driver");
+			Connection con = DriverManager.getConnection( dbpath, "admin", "admin");
+			Statement stmt = con.createStatement();
+
+			for (; ; ) {
+				System.out.println("1- Login\n2- Register\n3- Help\n>>>");
+				//Scanner user_input = new Scanner(System.in);
+				//caseChoice = user_input.next();
+				switch (Integer.parseInt(user_input.next())) {
+					case 1:
+						System.out.println("Email: ");
+						user_name = user_names.next();
+						System.out.println("Password: ");
+						password = passwords.next();
+						/*********************************
+						 * Quary code to validate login info
+						 */
+						ResultSet rs = stmt.executeQuery( "SELECT * FROM User WHERE email='" + user_name + "' " +
+								" AND password='" + password + "'ORDER BY name ");
+
+
+						rs.next();
+						if ( user_name.equals( rs.getString( "email" ) ) && password.equals( rs.getString( "password" ) ) )
+						{
+							if ( rs.getString( "Type" ).equals( "Company") )
+							{
+								ResultSet personalInfo = stmt.executeQuery( "SELECT companyID, Name, Email, Hiring" +
+										"FROM Company WHERE Email='" + user_name + "'" );
+								employer.setCompanyID( Integer.valueOf( personalInfo.getString( "companyID" ) ) );
+								employer.setName( personalInfo.getString( "name") );
+								employer.setEmail( user_name );
+								employer.setHiring( personalInfo.getBoolean( "hiring" ) );
+
+								// close the current connection and reconnect with the correct user
+								con.close();
+								con = DriverManager.getConnection( dbpath, "Company", "Company" );
+								employer.setConnection( con );
+								employer.userLoop( employer.getName(), String.valueOf( employer.getCompanyID() ), true );
+							}
+							// type is employee
+							else
+							{
+
+							}
+
+						} else {
+
+						}
+
+						break;
+					case 2:
+						System.out.println("Email: ");
+						user_name = user_names.next();
+						System.out.println("Password: ");
+						password = passwords.next();
+						System.out.println("Are you an Employee (y/n)");
+						isEmployee = IsEmployee.next();
+						if (isEmployee.equals("y") || isEmployee.equals("Y")) {
+							//System.out.println("True");
+							employee.employeeRegisteration(user_name, password);
+						} else {
+							//System.out.println("False");
+							employer.employerRegisteration(user_name, password);
+						}
+
+						/*********************************
+						 * Move to Employee and Employer Registration
+						 */
+						break;
+					case 3:
+						tmp = userLoop("Aziz", "12321", false);
+						System.out.println("Help");
+						break;
+				}
+			}
+			//user_input.close();
+			//user_names.close();
+			//passwords.close();
+		} catch ( Exception e ) {
+			System.out.println("Error: " + e.getMessage());
+		}
+	}
         /*Connection con = null;
 
         try
@@ -122,5 +167,4 @@ public class ApplicationMain extends User
         } catch ( Exception e ) {
             System.out.println("Error: " + e.getMessage());
         }*/
-    }
 }

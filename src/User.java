@@ -11,6 +11,8 @@ public abstract class User
     private static boolean out,check;
     private static String user_inputStr,method;
     private static String[] user_input;
+    private Connection con;
+
     public static boolean userLoop (String name, String id, boolean isEmp) {
     	out = true;
     	Scanner User_input = new Scanner(System.in);
@@ -85,6 +87,7 @@ public abstract class User
     {
     	System.out.println("searchEmployee method");
         // TODO
+		return null;
     }
 
     /**
@@ -94,6 +97,7 @@ public abstract class User
     {
     	System.out.println("viewEmployee method");
         // TODO
+		return null;
     }
 
     /**
@@ -106,6 +110,7 @@ public abstract class User
     {
     	System.out.println("searchCompany method");
         // TODO
+		return null;
     }
 
     /**
@@ -116,6 +121,7 @@ public abstract class User
     {
     	System.out.println("viewCompany method");
         // TODO
+		return null;
     }
 
     /**
@@ -128,6 +134,7 @@ public abstract class User
     {
     	System.out.println("searchJob method");
         // TODO
+		return null;
     }
 
     /**
@@ -139,6 +146,7 @@ public abstract class User
     {
         System.out.println("editProfileAttr method");
         // TODO
+		return null;
     }
 
     /**
@@ -150,16 +158,21 @@ public abstract class User
     {
     	System.out.println("addPhone method");
         // TODO
+		return null;
     }
 
-    /**
+
+
+	/**
      * @param number
+
      * @return
      */
     public static ResultSet deletePhone( String number )
     {
         // TODO
     	System.out.println("deletePhone method");
+    	return null;
     }
 
     /**
@@ -170,6 +183,7 @@ public abstract class User
     {
     	System.out.println("searchReviews method");
         // TODO
+		return null;
     }
 
     /**
@@ -179,4 +193,12 @@ public abstract class User
     {
         return this.email;
     }
+
+	/**
+	 *
+	 * @param con
+	 */
+	public void setConnection(Connection con) {
+		this.con = con;
+	}
 }

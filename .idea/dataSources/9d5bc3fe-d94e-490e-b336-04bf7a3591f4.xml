@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="linkedin">
+  <database-model serializer="dbm" rdbms="H2" format-version="4.0">
+    <root id="1"/>
+    <database id="2" parent="1" name="LINKEDIN">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </database>
+    <schema id="3" parent="2" name="INFORMATION_SCHEMA"/>
+    <schema id="4" parent="2" name="PUBLIC">
+      <Visible>1</Visible>
+    </schema>
+    <table id="5" parent="4" name="ASSOCIATES"/>
+    <table id="6" parent="4" name="COMPANY"/>
+    <table id="7" parent="4" name="COMP_PHONE"/>
+    <table id="8" parent="4" name="CONNECT"/>
+    <table id="9" parent="4" name="EMPLOYEE"/>
+    <table id="10" parent="4" name="EMPLOYS"/>
+    <table id="11" parent="4" name="ENDORSES"/>
+    <table id="12" parent="4" name="FOLLOWS"/>
+    <table id="13" parent="4" name="JOB"/>
+    <table id="14" parent="4" name="OFFICE"/>
+    <table id="15" parent="4" name="PAST_JOB"/>
+    <table id="16" parent="4" name="PHONE"/>
+    <table id="17" parent="4" name="REVIEW"/>
+    <table id="18" parent="4" name="SKILL"/>
+    <table id="19" parent="4" name="TEST"/>
+    <table id="20" parent="4" name="USER"/>
+    <column id="21" parent="5" name="CID1">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="22" parent="5" name="CID2">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="23" parent="5" name="CONSTRAINT_90">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>CID1
+CID2</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="24" parent="6" name="COMPANYID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_1F4B31F3_BBE0_4744_9F52_83D80D9B3981)</DefaultExpression>
+    </column>
+    <column id="25" parent="6" name="NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="6" name="DESCRIPTION">
+      <Position>3</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+    </column>
+    <column id="27" parent="6" name="EMAIL">
+      <Position>4</Position>
+      <DataType>VARCHAR(75)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="28" parent="6" name="HIRING">
+      <Position>5</Position>
+      <DataType>BOOLEAN(1)|16</DataType>
+    </column>
+    <index id="29" parent="6" name="COMPANY_INDEX">
+      <ColNames>NAME</ColNames>
+    </index>
+    <key id="30" parent="6" name="CONSTRAINT_63">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="31" parent="6" name="CONSTRAINT_637">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMAIL</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>USER</RefTableName>
+      <RefKeyName>CONSTRAINT_27</RefKeyName>
+      <RefColNames>EMAIL</RefColNames>
+    </foreign-key>
+    <column id="32" parent="7" name="COMPANYID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="33" parent="7" name="NUMBER">
+      <Position>2</Position>
+      <DataType>DECIMAL(10)|3</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="7" name="TYPE">
+      <Position>3</Position>
+      <DataType>VARCHAR(5)|12</DataType>
+    </column>
+    <key id="35" parent="7" name="CONSTRAINT_1D">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID
+NUMBER</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="36" parent="8" name="IDA">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="37" parent="8" name="IDB">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="38" parent="8" name="CONSTRAINT_638">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>IDA
+IDB</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="39" parent="8" name="CONSTRAINT_6380">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>IDA</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="40" parent="8" name="CONSTRAINT_63800">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>IDB</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <column id="41" parent="9" name="USERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+      <DefaultExpression>(NEXT VALUE FOR PUBLIC.SYSTEM_SEQUENCE_C72F8D51_EB3A_4762_A2A8_53F5610734B5)</DefaultExpression>
+    </column>
+    <column id="42" parent="9" name="NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="43" parent="9" name="ALMA_MATER">
+      <Position>3</Position>
+      <DataType>VARCHAR(75)|12</DataType>
+    </column>
+    <column id="44" parent="9" name="MAJOR">
+      <Position>4</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+    </column>
+    <column id="45" parent="9" name="GPA">
+      <Position>5</Position>
+      <DataType>DECIMAL(3,2)|3</DataType>
+    </column>
+    <column id="46" parent="9" name="EMAIL">
+      <Position>6</Position>
+      <DataType>VARCHAR(75)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="47" parent="9" name="AGE">
+      <Position>7</Position>
+      <DataType>INTEGER(10)|4</DataType>
+    </column>
+    <column id="48" parent="9" name="CITY">
+      <Position>8</Position>
+      <DataType>VARCHAR(75)|12</DataType>
+    </column>
+    <column id="49" parent="9" name="STATE">
+      <Position>9</Position>
+      <DataType>CHAR(2)|1</DataType>
+    </column>
+    <column id="50" parent="9" name="SEARCHING">
+      <Position>10</Position>
+      <DataType>BOOLEAN(1)|16</DataType>
+    </column>
+    <index id="51" parent="9" name="GPA_INDEX">
+      <ColNames>GPA</ColNames>
+    </index>
+    <key id="52" parent="9" name="CONSTRAINT_75C">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="53" parent="9" name="CONSTRAINT_75C8">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMAIL</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>USER</RefTableName>
+      <RefKeyName>CONSTRAINT_27</RefKeyName>
+      <RefColNames>EMAIL</RefColNames>
+    </foreign-key>
+    <column id="54" parent="10" name="COMPANYID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="55" parent="10" name="USERID">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="56" parent="10" name="CONSTRAINT_C">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID
+USERID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="57" parent="10" name="CONSTRAINT_C9">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <foreign-key id="58" parent="10" name="CONSTRAINT_C9F">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <column id="59" parent="11" name="ENDORSERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="60" parent="11" name="USERID">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="61" parent="11" name="SKILL">
+      <Position>3</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="62" parent="11" name="CONSTRAINT_INDEX_96">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>SKILL
+USERID</ColNames>
+    </index>
+    <key id="63" parent="11" name="CONSTRAINT_9">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ENDORSERID
+USERID
+SKILL</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="64" parent="11" name="CONSTRAINT_96">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ENDORSERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="65" parent="11" name="CONSTRAINT_966">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="66" parent="11" name="CONSTRAINT_9660">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>SKILL</RefTableName>
+      <RefKeyName>CONSTRAINT_4B</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <column id="67" parent="12" name="USERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="68" parent="12" name="COMPANYID">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="69" parent="12" name="CONSTRAINT_21">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID
+COMPANYID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="70" parent="12" name="CONSTRAINT_215">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="71" parent="12" name="CONSTRAINT_215C">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <column id="72" parent="13" name="COMPANYID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="73" parent="13" name="ROLE">
+      <Position>2</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="74" parent="13" name="SALARY">
+      <Position>3</Position>
+      <DataType>INTEGER(10)|4</DataType>
+    </column>
+    <column id="75" parent="13" name="DESCRIPTION">
+      <Position>4</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+    </column>
+    <index id="76" parent="13" name="SALARY_INDEX">
+      <ColNames>SALARY</ColNames>
+    </index>
+    <key id="77" parent="13" name="CONSTRAINT_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID
+ROLE</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="78" parent="13" name="CONSTRAINT_11">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <column id="79" parent="14" name="COMPANYID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="80" parent="14" name="CITY">
+      <Position>2</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="81" parent="14" name="STATE">
+      <Position>3</Position>
+      <DataType>CHAR(2)|1</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="82" parent="14" name="STATE_INDEX">
+      <ColNames>STATE</ColNames>
+    </index>
+    <key id="83" parent="14" name="CONSTRAINT_8">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID
+CITY
+STATE</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="84" parent="14" name="CONSTRAINT_8A">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <column id="85" parent="15" name="USERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="86" parent="15" name="COMPANYID">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="87" parent="15" name="ROLE">
+      <Position>3</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="88" parent="15" name="DESCRIPTION">
+      <Position>4</Position>
+      <DataType>VARCHAR(200)|12</DataType>
+    </column>
+    <key id="89" parent="15" name="CONSTRAINT_7">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID
+COMPANYID
+ROLE</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="90" parent="15" name="CONSTRAINT_77">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="91" parent="15" name="CONSTRAINT_774">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <column id="92" parent="16" name="USERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="93" parent="16" name="NUMBER">
+      <Position>2</Position>
+      <DataType>DECIMAL(10)|3</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="94" parent="16" name="TYPE">
+      <Position>3</Position>
+      <DataType>VARCHAR(5)|12</DataType>
+    </column>
+    <key id="95" parent="16" name="CONSTRAINT_4">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID
+NUMBER</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="96" parent="16" name="CONSTRAINT_48">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <column id="97" parent="17" name="USERID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="98" parent="17" name="COMPANYID">
+      <Position>2</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="99" parent="17" name="DESCRIPTION">
+      <Position>3</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+    </column>
+    <column id="100" parent="17" name="RECOMMEND">
+      <Position>4</Position>
+      <DataType>BOOLEAN(1)|16</DataType>
+    </column>
+    <key id="101" parent="17" name="CONSTRAINT_8F">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID
+COMPANYID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="102" parent="17" name="CONSTRAINT_8FE">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>USERID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>EMPLOYEE</RefTableName>
+      <RefKeyName>CONSTRAINT_75C</RefKeyName>
+      <RefColNames>USERID</RefColNames>
+    </foreign-key>
+    <foreign-key id="103" parent="17" name="CONSTRAINT_8FE1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>COMPANYID</ColNames>
+      <RefSchemaName>PUBLIC</RefSchemaName>
+      <RefTableName>COMPANY</RefTableName>
+      <RefKeyName>CONSTRAINT_63</RefKeyName>
+      <RefColNames>COMPANYID</RefColNames>
+    </foreign-key>
+    <column id="104" parent="18" name="NAME">
+      <Position>1</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="105" parent="18" name="DESCRIPTION">
+      <Position>2</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+    </column>
+    <column id="106" parent="18" name="USERID">
+      <Position>3</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="107" parent="18" name="CONSTRAINT_4B">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>NAME
+USERID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="108" parent="19" name="ID">
+      <Position>1</Position>
+      <DataType>INTEGER(10)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="109" parent="19" name="NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(255)|12</DataType>
+    </column>
+    <key id="110" parent="19" name="CONSTRAINT_2">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="111" parent="20" name="EMAIL">
+      <Position>1</Position>
+      <DataType>VARCHAR(100)|12</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="112" parent="20" name="PASSWORD">
+      <Position>2</Position>
+      <DataType>VARCHAR(20)|12</DataType>
+    </column>
+    <key id="113" parent="20" name="CONSTRAINT_27">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>EMAIL</ColNames>
+      <Primary>1</Primary>
+    </key>
+  </database-model>
+</dataSource>

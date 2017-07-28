@@ -2727,3 +2727,29 @@ org.h2.jdbc.JdbcSQLException: Feature not supported: "getFunctionColumns" [50100
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
 	at java.lang.Thread.run(Thread.java:745)
+2017-07-28 15:10:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "CREATE USER COMPANY [*]"; expected "COMMENT, PASSWORD, SALT, IDENTIFIED"; SQL statement:
+create USER company [42001-195]
+2017-07-28 15:12:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Column "COMPANY" not found; SQL statement:
+create USER Company password Company [42122-195]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:147)
+	at org.h2.command.ddl.CreateUser.setPassword(CreateUser.java:73)
+	at org.h2.command.ddl.CreateUser.update(CreateUser.java:106)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:101)
+	at org.h2.command.Command.executeUpdate(Command.java:260)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:193)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:165)
+	at org.h2.server.web.WebApp.getResult(WebApp.java:1380)
+	at org.h2.server.web.WebApp.query(WebApp.java:1053)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1015)
+	at org.h2.server.web.WebApp$1.next(WebApp.java:1002)
+	at org.h2.server.web.WebThread.process(WebThread.java:164)
+	at org.h2.server.web.WebThread.run(WebThread.java:89)
+	at java.lang.Thread.run(Unknown Source)
+2017-07-28 15:34:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "ALTER TABLE USER ADD COLUMN TYPE VARCHAR(20) CHECK[*] IN ( 'Employee', 'Company' ) "; SQL statement:
+ALTER TABLE User ADD COLUMN Type VARCHAR(20) CHECK IN ( 'Employee', 'Company' ) [42000-195]
