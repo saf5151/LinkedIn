@@ -50,11 +50,37 @@ public class Employer extends User
 		Hiring.close();
 		*/
 	}
+    
+    /**
+     * @param user_input: an Array containing the method to be called and parameters
+     * @return: true on success, false otherwise
+     */
+    public boolean employerMethodCall( String[] user_input )
+    {
+    	String method = user_input[0].toUpperCase();
+    	boolean found = true;
+    	if (method.equals("ADDASSOCIATE")) {
+    		addAssociate(user_input[2]);
+    	}else if(method.equals("POSTJOB")) {
+    		postJob(user_input[2], Integer.parseInt(user_input[4]),user_input[6]);
+    	}else if(method.equals("DELETEJOB")) {
+    		deleteJob(user_input[2]);
+    	}else if(method.equals("ADDOFFICE")) {
+    		addOffice(user_input[2], user_input[4]);
+    	}else if(method.equals("POSTJOB")) {
+    		deleteOffice(user_input[2], user_input[4]);
+    	}else {
+    		found = false;
+    	}
+        // TODO
+    	return found;
+    }
+    
     /**
      * @param theirCompanyID: the id of the company that you you want to add as an associate
      * @return: true on success, false otherwise
      */
-    public boolean addAssociate( int theirCompanyID )
+    public boolean addAssociate( String theirCompanyID )
     {
         // TODO
     	return true;

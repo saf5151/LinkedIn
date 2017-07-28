@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
-public class ApplicationMain
+public class ApplicationMain extends User
 {
     public static void main ( String[] args )
     {
     	String caseChoice,user_name,password,email,isEmployee;
-    	Boolean isEmpB;
+    	Boolean isEmpB,tmp;
     	isEmpB = null;
     	System.out.println("\t\t\t\t\t Welcome to Swan Ronson Networking Platform");
     	Scanner user_input = new Scanner(System.in);
@@ -51,10 +51,11 @@ public class ApplicationMain
     				}
     				
     				/*********************************
-    				 * Move to Employee and Employer Registeration
+    				 * Move to Employee and Employer Registration
     				 */
     				break;
     			case 3:
+    				tmp = userLoop("Aziz", "12321", false);
     				System.out.println("Help");
     				break;
     		}

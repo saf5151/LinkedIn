@@ -75,10 +75,46 @@ public class Employee extends User {
 		Search.close();*/
 	}
 	/**
+     * @param user_input: an Array containing the method to be called and parameters
+     * @return: true on success, false otherwise
+     */
+    public boolean employeeMethodCall( String[] user_input )
+    {
+    	String method = user_input[0].toUpperCase();
+    	boolean found = true;
+    	boolean check; 
+    	if (method.equals("MAKECONNECTION")) {
+    		makeConnection(user_input[2]);
+    	}else if(method.equals("FOLLOWCOMPANY")) {
+    		followCompany(user_input[2]);
+    	}else if (method.equals("REVIEWCOMPANY")) {
+    		if(user_input[6].toUpperCase().equals("TRUE")) {
+    			check = true;
+    		}else {
+    			check = false;
+    		}
+    		reviewCompany(user_input[2], user_input[4], check);
+    	}else if (method.equals("ENDORSESKILL")) {
+    		endorseSkill( user_input[2], user_input[4]);
+    	}else if (method.equals("ADDSKILL")) {
+    		addSkill( user_input[2], user_input[4]);
+    	}else if (method.equals("DELETESKILL")) {
+    		deleteSkill( user_input[2]);
+    	}else if (method.equals("ADDPASTJOB")) {
+    		addPastJob( user_input[2],user_input[4],user_input[6]);
+    	}else if (method.equals("DELETEPASTJOB")) {
+    		deletePastJob( user_input[2], user_input[4]);
+    	}else {
+    		found = false;
+    	}
+        // TODO
+    	return found;
+    }
+	/**
      * @param theirID: the id of the user you wish to make a connection with
      * @return: true on success, false otherwise
      */
-    public boolean makeConnection( int theirID )
+    public boolean makeConnection( String theirID )
     {
         // TODO
     	return true;
@@ -88,7 +124,7 @@ public class Employee extends User {
      * @param companyID
      * @return: true on success, false otherwise
      */
-    public boolean followCompany( int companyID )
+    public boolean followCompany( String companyID )
     {
         // TODO
     	return true;
@@ -100,7 +136,7 @@ public class Employee extends User {
      * @param recommended
      * @return: true on success, false otherwise
      */
-    public boolean reviewCompany( int companyID, String description, boolean recommended )
+    public boolean reviewCompany( String companyID, String description, boolean recommended )
     {
         // TODO
     	return true;
@@ -111,7 +147,7 @@ public class Employee extends User {
      * @param skillName
      * @return: true on success, false otherwise
      */
-    public boolean endorseSkill( int theirID, String skillName )
+    public boolean endorseSkill( String theirID, String skillName )
     {
         // TODO
     	return true;
@@ -144,7 +180,7 @@ public class Employee extends User {
      * @param description
      * @return: true on success, false otherwise
      */
-    public boolean addPastJob( String role, int companyID, String description )
+    public boolean addPastJob( String role, String companyID, String description )
     {
         // TODO
     	return true;
@@ -155,7 +191,7 @@ public class Employee extends User {
      * @param companyID
      * @return: true on success, false otherwise
      */
-    public boolean deletePastJob( String role, int companyID )
+    public boolean deletePastJob( String role, String companyID )
     {
         // TODO
     	return true;
