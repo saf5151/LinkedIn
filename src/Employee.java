@@ -1,3 +1,4 @@
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -306,6 +307,11 @@ public class Employee extends User {
     	 */
     	return age;
     }
+
+    public Connection getCon()
+	{
+		return this.con;
+	}
 
     public String getCity() {
         return city;

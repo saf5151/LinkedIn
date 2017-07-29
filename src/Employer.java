@@ -1,3 +1,4 @@
+import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -186,6 +187,10 @@ public class Employer extends User {
 
     public boolean isHiring() {
         return this.hiring;
+    }
+
+    public Connection getCon() {
+        return this.con;
     }
 
     // setters

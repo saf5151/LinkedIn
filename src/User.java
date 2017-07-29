@@ -13,11 +13,14 @@ public abstract class User
     private static String[] user_input;
     protected Connection con;
 
-    public static boolean userLoop (String name, String id, boolean isEmp) {
+    public static boolean userLoop (String name, String id, boolean isEmp, Connection con) {
     	out = true;
     	Scanner User_input = new Scanner(System.in);
     	Employee employee = new Employee();
     	Employer employer = new Employer();
+		// FIXME scoping is messed up for the connection
+
+
     	//Class cls = User.class;
     	while (out == true) {
     		try {
@@ -59,10 +62,10 @@ public abstract class User
 	    			}else {
 	    				check = false;
 	    			}
-	    			searchEmployee(user_input[2], check);
+	    			searchEmployee(user_input[2], check, con );
 	    		// viewEmployee call
 	    		}else if((user_input[0].toUpperCase()).equals("VIEWEMPLOYEE")) {
-	    			viewEmployee(user_input[2]);
+	    			viewEmployee(user_input[2], con);
 	    		// SearchCompany
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHCOMPANY")) {
 	    			if ((user_input[6].toUpperCase()).equals("TRUE")) {
@@ -72,7 +75,7 @@ public abstract class User
 	    			}
 	    			searchCompany(user_input[2], user_input[4], check);
 	    		}else if((user_input[0].toUpperCase()).equals("VIEWCOMPANY")) {
-	    			viewCompany(user_input[2]);
+	    			viewCompany(user_input[2], con );
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHJOB")) {
 	    			searchJob(user_input[2], user_input[4], Integer.parseInt(user_input[6]));
 	    		}else if((user_input[0].toUpperCase()).equals("EDITPROFILEATTRIBUTE")) {
@@ -106,21 +109,85 @@ public abstract class User
      * @param following: true/false tag that will filter results if true*
      * @return: a result set containing all names similar the given name
      */
-    public static ResultSet searchEmployee( String name, boolean following )
+    public static void searchEmployee( String name, boolean following, Connection con )
     {
-    	System.out.println("searchEmployee method");
-        // TODO
-		return null;
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs;
+			if ( following )
+				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%" ); // FIXME following filter
+			else
+				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name%" );
+
+			System.out.println( "Users: " );
+			while( rs.next() )
+			{
+				int userID = rs.getInt( "userID" );
+				String resultName = rs.getString( "name" );
+				String almaMater = rs.getString( "alma_mater" );
+				String major = rs.getString( "major" );
+				double gpa = rs.getDouble( "gpa" );
+
+				System.out.println( "\t-Name: " + resultName );
+				System.out.println( "\t\tID: " + Integer.toString(userID) );
+				System.out.println( "\t\tAlma Mater: " + almaMater );
+				System.out.println( "\t\tMajor: " + major );
+				System.out.println( "\t\tGPA: " + Double.toString( gpa ) );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}
+
+		return;
     }
 
     /**
      * @param id: the userID of the employee that you want to see
      */
-    public static ResultSet viewEmployee( String id )
+    public static void viewEmployee( String id, Connection con )
     {
-    	System.out.println("viewEmployee method");
-        // TODO
-		return null;
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet profile = stmt.executeQuery("SELECT * FROM Employee WHERE userID='" + id + "'" );
+			ResultSet pastJobs = stmt.executeQuery( "SELECT PAST_JOB.COMPANYID, PAST_JOB.DESCRIPTION AS DESC, ROLE, NAME\n" +
+					"FROM PAST_JOB JOIN COMPANY WHERE companyID='" + id + "'");
+
+			System.out.println( "User Profile Information:" );
+			while( profile.next() )
+			{
+				int userID = profile.getInt( "userID" );
+				String name = profile.getString( "name" );
+				String almaMater = profile.getString( "alma_mater" );
+				String major = profile.getString( "major" );
+				double gpa = profile.getDouble( "gpa" );
+
+				System.out.println( "\tID: " + Integer.toString(userID) );
+				System.out.println( "\tName: " + name );
+				System.out.println( "\tAlma Mater: " + almaMater );
+				System.out.println( "\tMajor: " + major );
+				System.out.println( "\tGPA: " + Double.toString( gpa ) );
+			}
+
+			System.out.println( "\nPast Jobs: " );
+			while( pastJobs.next() )
+			{
+				String name = pastJobs.getString( "name" );
+				String role = pastJobs.getString( "role" );
+				String desc = pastJobs.getString( "PAST_JOB.DESCRIPTION" );
+
+				System.out.println( "\t-" + name );
+				System.out.println( "\t\tRole: " + role );
+				System.out.println( "\t\tDesciption: " + desc );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: couldn't find user.");
+		}
+
+		return;
     }
 
     /**
@@ -140,12 +207,69 @@ public abstract class User
      * @param id
      * @return
      */
-    public static ResultSet viewCompany( String id )
+    public static void viewCompany( String id, Connection con )
     {
-    	System.out.println("viewCompany method");
-        // TODO
-		return null;
+		try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet profile = stmt.executeQuery("SELECT COMPANY.COMPANYID, COMPANY.NAME, DESCRIPTION, HIRING, (" +
+					               "  SELECT AVG(CASE WHEN REVIEW.RECOMMEND='TRUE' AND REVIEW.COMPANYID='" + id + "' THEN 1.0 ELSE 0 END ) AS RATING" +
+					               "  FROM REVIEW" +
+					               "  WHERE REVIEW.COMPANYID='" + id + "'  ) AS RATING" +
+					               "FROM COMPANY" +
+					               "WHERE COMPANYID='" + id + "'" );
+
+			ResultSet offices = stmt.executeQuery( "SELECT City, State FROM Office WHERE companyID='" + id + "'" );
+			ResultSet associates = stmt.executeQuery( "SELECT CID2 FROM ASSOCIATES WHERE CID1='" + id + "'" );
+			ResultSet openJobs = stmt.executeQuery( "SELECT * FROM Job WHERE companyID='" + id + "'");
+
+			System.out.println( "Company Profile Information:" );
+			while( profile.next() )
+			{
+				int compID = profile.getInt( "companyID" );
+				String name = profile.getString( "name" );
+				String description = profile.getString( "description" );
+				boolean hiring = profile.getBoolean( "hiring" );
+				int rating = 100 * (int)profile.getDouble( "rating" );
+
+				System.out.println( "\tID: " + Integer.toString(compID) );
+				System.out.println( "\tName: " + name );
+				System.out.println( "\tDescription: " + description );
+				System.out.println( "\t" + Integer.toString( rating )  + "% of all reviews were positive." );
+				if ( hiring )
+					System.out.println( "\t" + name + " is currently hiring." );
+				else
+					System.out.println( "\t" + name + " is not currently hiring."  );
+			}
+
+			System.out.println( "\nCompany Offices" );
+			while( offices.next() )
+			{
+				String city = offices.getString( "city" );
+				String state = offices.getString( "state" );
+
+				System.out.println( "\t-City: " + city + ", State: " + state );
+			}
+
+
+			System.out.println( "\nOpen Job Listings:" );
+			while( openJobs.next() )
+			{
+				String role = openJobs.getString( "role" );
+				int salary = openJobs.getInt( "salary" );
+				String description = openJobs.getString( "desciption" );
+
+				System.out.println( "\t-Role: " + role + ", Salary: " + Integer.toString(salary) + ", Description: " + description );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: couldn't find company.");
+
+		}
+
+		return;
     }
+
 
     /**
      * @param companyID

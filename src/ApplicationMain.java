@@ -65,7 +65,7 @@ public class ApplicationMain extends User
 								con.close();
 								con = DriverManager.getConnection(dbpath, "Company", "Company");
 								employer.setConnection(con);
-								employer.userLoop(employer.getName(), String.valueOf(employer.getCompanyID()), true);
+								employer.userLoop(employer.getName(), String.valueOf(employer.getCompanyID()), true, con );
 
 							}
 							// type is employee
@@ -84,7 +84,7 @@ public class ApplicationMain extends User
 								con.close();
 								con = DriverManager.getConnection(dbpath, "Employee", "Employee");
 								employee.setConnection(con);
-								employee.userLoop(employee.getName(), String.valueOf(employee.getId()), false);
+								employee.userLoop(employee.getName(), String.valueOf(employee.getId()), false, con );
 							}
 
 						} else {
@@ -113,7 +113,7 @@ public class ApplicationMain extends User
 						 */
 						break;
 					case 3:
-						tmp = userLoop("Aziz", "12321", false);
+						tmp = userLoop("Aziz", "12321", false, con);
 						System.out.println("Help");
 						break;
 				}

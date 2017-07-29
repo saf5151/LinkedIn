@@ -14,7 +14,7 @@ CREATE TABLE Employee (
   major VARCHAR(50),
   gpa NUMERIC( 3, 2 ),
   email VARCHAR(75) NOT NULL UNIQUE,
-  age int,
+  dob DATE,
   city VARCHAR(75),
   state CHAR(2),
   searching BOOLEAN,
@@ -140,3 +140,8 @@ CREATE TABLE Connect (
   FOREIGN KEY ( IDA ) REFERENCES Employee,
   FOREIGN KEY ( IDB ) REFERENCES Employee
 );
+
+CREATE USER Company PASSWORD 'Company';
+
+CREATE USER Employee PASSWORD 'Employee';
+
