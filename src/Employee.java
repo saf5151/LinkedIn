@@ -1,3 +1,4 @@
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Employee extends User {
@@ -116,8 +117,17 @@ public class Employee extends User {
      */
     public boolean makeConnection( String theirID )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Connect VALUES ( '" +
+					Integer.toString( this.id ) + "', '" + theirID +"')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: couldn't make connection.");
+			return false;
+		}
     }
 
     /**
@@ -126,8 +136,17 @@ public class Employee extends User {
      */
     public boolean followCompany( String companyID )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Follows VALUES ( '" +
+					Integer.toString( this.id ) + "', '" + companyID +"')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed to follow company.");
+			return false;
+		}
     }
 
     /**
@@ -138,8 +157,17 @@ public class Employee extends User {
      */
     public boolean reviewCompany( String companyID, String description, boolean recommended )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Review VALUES ( '" +
+					Integer.toString( this.id ) + "', '" + companyID +"', '" + description + "', '" + recommended + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: could not review company.");
+			return false;
+		}
     }
 
     /**
@@ -149,8 +177,17 @@ public class Employee extends User {
      */
     public boolean endorseSkill( String theirID, String skillName )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Endorses VALUES ( '" +
+					Integer.toString( this.id ) + "', '" + theirID +"', '" + skillName + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed to endorse skill.");
+			return false;
+		}
     }
 
     /**
@@ -160,8 +197,17 @@ public class Employee extends User {
      */
     public boolean addSkill( String name, String description )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Skill VALUES ( '" +
+					name + "', '" + description +"', '"  + Integer.toString( this.id ) + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: company does not exist.");
+			return false;
+		}
     }
 
     /**
@@ -170,8 +216,16 @@ public class Employee extends User {
      */
     public boolean deleteSkill( String name )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("DELETE FROM Skill WHERE name='" + name + "' AND userID='" + Integer.toString( this.id ) + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: company does not exist.");
+			return false;
+		}
     }
 
     /**
@@ -182,8 +236,17 @@ public class Employee extends User {
      */
     public boolean addPastJob( String role, String companyID, String description )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("INSERT INTO Past_Job VALUES ( '" + Integer.toString( this.id ) + "', '" +
+					companyID + "', '" + role + "', '" + description + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: company does not exist.");
+			return false;
+		}
     }
 
     /**
@@ -193,8 +256,17 @@ public class Employee extends User {
      */
     public boolean deletePastJob( String role, String companyID )
     {
-        // TODO
-    	return true;
+		try
+		{
+			Statement stmt = this.con.createStatement();
+			stmt.executeUpdate("DELETE FROM Past_Job WHERE companyID='" + companyID + "' AND userID='"
+					+ Integer.toString( this.id ) + "' AND role='" + role + "')" );
+			return true;
+
+		} catch ( Exception e ) {
+			System.out.println("Error: company does not exist.");
+			return false;
+		}
     }
 
     /** GETTERS */
@@ -246,5 +318,27 @@ public class Employee extends User {
     public boolean isSearching() {
         return search;
     }
+
+    public void setId( Integer id )
+	{
+		this.id = id;
+	}
+
+	public void setEmail( String email )
+	{
+		this.email = email;
+	}
+
+	public void setSearching( boolean searching )
+	{
+		this.search = searching;
+	}
+
+	public void setName( String name )
+	{
+		this.name = name;
+	}
+
+
 }
 

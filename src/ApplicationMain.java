@@ -21,7 +21,7 @@ public class ApplicationMain extends User
 		Employer employer = new Employer();
 		//User user = new User();
 
-		String dbpath = "jdbc:h2:file:C:/Users/Scott/Dropbox/CSCI 320/Linkedin/db/linkedin";
+		String dbpath = "jdbc:h2:~/Dropbox/CSCI 320/LinkedIn/db/linkedin";
 
 		try
 		{
@@ -40,40 +40,57 @@ public class ApplicationMain extends User
 						user_name = user_names.next();
 						System.out.println("Password: ");
 						password = passwords.next();
-						/*********************************
-						 * Quary code to validate login info
-						 */
 						ResultSet rs = stmt.executeQuery( "SELECT * FROM User WHERE email='" + user_name + "' " +
-								" AND password='" + password + "'ORDER BY name ");
+								" AND password='" + password + "'");
 
-
+						// FIXME test for no data available
 						rs.next();
-						if ( user_name.equals( rs.getString( "email" ) ) && password.equals( rs.getString( "password" ) ) )
+						// check login info
+						if (user_name.equals(rs.getString("EMAIL")) && password.equals(rs.getString("PASSWORD")))
 						{
-							if ( rs.getString( "Type" ).equals( "Company") )
-							{
-								ResultSet personalInfo = stmt.executeQuery( "SELECT companyID, Name, Email, Hiring" +
-										"FROM Company WHERE Email='" + user_name + "'" );
-								employer.setCompanyID( Integer.valueOf( personalInfo.getString( "companyID" ) ) );
-								employer.setName( personalInfo.getString( "name") );
-								employer.setEmail( user_name );
-								employer.setHiring( personalInfo.getBoolean( "hiring" ) );
+							// enter user loop for the company
+							if (rs.getString("TYPE").equals("Company")) {
+
+								ResultSet personalInfo = stmt.executeQuery("SELECT companyID, Name, Email, Hiring " +
+										"FROM Company WHERE Email='" + user_name + "'");
+								// FIXME test for no data available
+								personalInfo.next();
+
+								employer.setCompanyID(Integer.valueOf(personalInfo.getInt("companyID")));
+								employer.setName(personalInfo.getString("name"));
+								employer.setEmail(user_name);
+								employer.setHiring(personalInfo.getBoolean("hiring"));
 
 								// close the current connection and reconnect with the correct user
 								con.close();
-								con = DriverManager.getConnection( dbpath, "Company", "Company" );
-								employer.setConnection( con );
-								employer.userLoop( employer.getName(), String.valueOf( employer.getCompanyID() ), true );
+								con = DriverManager.getConnection(dbpath, "Company", "Company");
+								employer.setConnection(con);
+								employer.userLoop(employer.getName(), String.valueOf(employer.getCompanyID()), true);
+
 							}
 							// type is employee
-							else
-							{
+							else {
+								ResultSet personalInfo = stmt.executeQuery("SELECT * FROM Employee WHERE Email='" + user_name + "'");
+								// FIXME test for no data available
+								personalInfo.next();
 
+								// store some user information locally
+								employee.setId(Integer.valueOf(personalInfo.getInt("UserID")));
+								employee.setName(personalInfo.getString("name"));
+								employee.setEmail(user_name);
+								employee.setSearching(personalInfo.getBoolean("searching"));
+
+								// close the current connection and reconnect with the correct user
+								con.close();
+								con = DriverManager.getConnection(dbpath, "Employee", "Employee");
+								employee.setConnection(con);
+								employee.userLoop(employee.getName(), String.valueOf(employee.getId()), false);
 							}
 
 						} else {
-
+							// FIXME will error before getting here
 						}
+
 
 						break;
 					case 2:

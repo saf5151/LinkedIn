@@ -11,7 +11,7 @@ public abstract class User
     private static boolean out,check;
     private static String user_inputStr,method;
     private static String[] user_input;
-    private Connection con;
+    protected Connection con;
 
     public static boolean userLoop (String name, String id, boolean isEmp) {
     	out = true;

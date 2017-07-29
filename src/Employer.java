@@ -1,6 +1,3 @@
-import java.sql.Connection; // FIXME might not be necessary
-import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -79,8 +76,17 @@ public class Employer extends User {
      * @return: true on success, false otherwise
      */
     public boolean addAssociate(String theirCompanyID) {
-        // TODO
-        return true;
+        try
+        {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("INSERT INTO Associates VALUES ( '" +
+                    Integer.toString( this.companyID ) + "', '" + theirCompanyID +"')" );
+            return true;
+
+        } catch ( Exception e ) {
+            System.out.println("Error: company does not exist.");
+            return false;
+        }
     }
 
     /**
@@ -90,8 +96,17 @@ public class Employer extends User {
      * @return: true on success, false otherwise
      */
     public boolean postJob(String role, int salary, String description) {
-        // TODO
-        return true;
+        try
+        {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("INSERT INTO Job VALUES ( '" + Integer.toString( this.companyID ) +
+                    "', '" + role +"', '" + Integer.toString( salary ) + "', '" + description + "')" );
+            return true;
+
+        } catch ( Exception e ) {
+            System.out.println("Error: could not post job.");
+            return false;
+        }
     }
 
     /**
@@ -99,8 +114,17 @@ public class Employer extends User {
      * @return: true on success, false otherwise
      */
     public boolean deleteJob(String role) {
-        // TODO
-        return true;
+        try
+        {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("DELETE FROM Job WHERE companyID='" + Integer.toString( this.companyID ) + "' " +
+                    "AND role='" + role + "'" );
+            return true;
+
+        } catch ( Exception e ) {
+            System.out.println("Error: no job with that role was found for your company.");
+            return false;
+        }
     }
 
     /**
@@ -109,8 +133,17 @@ public class Employer extends User {
      * @return: true on success, false otherwise
      */
     public boolean addOffice(String city, String state) {
-        // TODO
-        return true;
+        try
+        {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("INSERT INTO Office VALUES ( '" +
+                    Integer.toString( this.companyID ) + "', '" + city +"', '" + state + "')" );
+            return true;
+
+        } catch ( Exception e ) {
+            System.out.println("Error: could not add company.");
+            return false;
+        }
     }
 
     /**
@@ -119,8 +152,17 @@ public class Employer extends User {
      * @return: true on success, false otherwise
      */
     public boolean deleteOffice(String city, String state) {
-        // TODO
-        return true;
+        try
+        {
+            Statement stmt = this.con.createStatement();
+            stmt.executeUpdate("DELETE FROM Office WHERE companyID='" + Integer.toString( this.companyID)
+                    + "' AND city='" + city + "' AND state='" + state + "'" );
+            return true;
+
+        } catch ( Exception e ) {
+            System.out.println("Error: no office was found at that location.");
+            return false;
+        }
     }
 
 
@@ -145,6 +187,8 @@ public class Employer extends User {
     public boolean isHiring() {
         return this.hiring;
     }
+
+    // setters
 
     public void setCompanyID(int companyID) {
         this.companyID = companyID;
