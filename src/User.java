@@ -11,7 +11,7 @@ public abstract class User
     private static boolean out,check;
     private static String user_inputStr,method;
     private static String[] user_input;
-    protected Connection con;
+    public Connection con;
 
     public static boolean userLoop (String name, String id, boolean isEmp, Connection con) {
     	out = true;
@@ -196,33 +196,31 @@ public abstract class User
      * @param following
      * @return
      */
-    public static void searchCompany( String name, String location, boolean following, Connection con )
+    public static void searchCompany( String name, String location, Connection con )
     { //test me
     	try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs;
-			if ( following )
-				rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %'"+ name +"'%" ); // FIXME following filter
+			if ( location.equals( "null" ) )
+				rs = stmt.executeQuery( "SELECT * FROM Employee_View WHERE NAME LIKE %'"+ name +"'%" );
 			else
-				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %'"+ name +"'% and LOCATION LIKE %'"+location+"'%" );
+				rs = stmt.executeQuery( "SELECT * FROM Employee_View WHERE NAME LIKE %'"+ name +"'% and LOCATION LIKE %'"+location+"'%" );
 
 			System.out.println( "Companies: " );
 			while( rs.next() )
 			{
 				int companyID = rs.getInt( "COMPANYID" );
 				String resultName = rs.getString( "NAME" );
-				String email = rs.getString( "EMAIL" );
 				String description = rs.getString( "Description" );
 
 				System.out.println( "\t-Name: " + resultName );
 				System.out.println( "\t\tID: " + Integer.toString(companyID) );
-				System.out.println( "\t\tEmail: " + email );
 				System.out.println( "\t\tDescription: " + description );
 			}
 
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for company.");
+			System.out.println("Error: failed search for employee.");
 		}
 
 		return;
@@ -309,11 +307,8 @@ public abstract class User
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs,name;
-			//if ( following )
-				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
-			//else
-				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %'"+ companyID +"'% and ROLE LIKE %'"+ role + "'% and SALARY>'"+ minimumSalary + "'" );
-				name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '"+companyID+"'" );
+			rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %'"+ companyID +"'% and ROLE LIKE %'"+ role + "'% and SALARY>'"+ minimumSalary + "'" );
+			name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '"+companyID+"'" );
 			System.out.println( "Job listing: " );
 			while( rs.next() && name.next() )
 			{
@@ -405,12 +400,9 @@ public abstract class User
     	try
 		{
 			Statement stmt = con.createStatement();
-			ResultSet rs, cName, eName;
-			//if ( following )
-				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
-			//else
-				rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %'"+companyID+"'%");
-				cName = stmt.executeQuery( "SELECT * FROM COMPANY WHERE COMPANYID = '"+companyID+"'" );
+			ResultSet rs, cName, eName
+			rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %'"+companyID+"'%");
+			cName = stmt.executeQuery( "SELECT * FROM COMPANY WHERE COMPANYID = '"+companyID+"'" );
 			System.out.println( "Reviews: " );
 			while( rs.next())
 			{

@@ -142,6 +142,24 @@ CREATE TABLE Connect (
 );
 
 CREATE USER Company PASSWORD 'Company';
-
 CREATE USER Employee PASSWORD 'Employee';
+
+CREATE ROLE General_User;
+
+
+
+
+CREATE VIEW Anonymous_Review AS
+SELECT Company.CompanyID, Name, Review.description, Recommend
+FROM Company INNER JOIN review
+ON Review.companyID = Company.CompanyID;
+
+CREATE VIEW Company_View AS
+SELECT companyID, Name, Description, Hiring
+FROM Company;
+
+CREATE VIEW Employee_View AS
+SELECT UserID, Name, Alma_Mater, Major, GPA, Email, DOB, City, State, Searching
+FROM Employee;
+
 
