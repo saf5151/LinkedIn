@@ -116,7 +116,7 @@ public abstract class User
 			Statement stmt = con.createStatement();
 			ResultSet rs;
 			if ( following )
-				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%" ); // FIXME following filter
+				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%"); // FIXME following filter
 			else
 				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name%" );
 

@@ -21,7 +21,7 @@ public class ApplicationMain extends User
 		Employer employer = new Employer();
 		//User user = new User();
 
-		String dbpath = "jdbc:h2:~/Dropbox/CSCI 320/LinkedIn/db/linkedin";
+		String dbpath = "jdbc:h2:file:C:/Users/Aziz/OneDrive/Documents/workspace/Linkedin/db/linkedin";
 
 		try
 		{
@@ -101,13 +101,18 @@ public class ApplicationMain extends User
 						System.out.println("Are you an Employee (y/n)");
 						isEmployee = IsEmployee.next();
 						if (isEmployee.equals("y") || isEmployee.equals("Y")) {
-							//System.out.println("True");
+							/***
+							 * Need to check if the email exist
+							 */
+							stmt.executeUpdate("insert into USER values('" + user_name + "', '"+ password +"', 'Employee')");
+							con.close();
+							con = DriverManager.getConnection(dbpath, "Employee", "Employee");
+							employee.setConnection(con);
 							employee.employeeRegisteration(user_name, password);
 						} else {
-							//System.out.println("False");
+							stmt.executeUpdate("insert into USER values('" + user_name + "', '"+ password +"', 'Company')");
 							employer.employerRegisteration(user_name, password);
 						}
-
 						/*********************************
 						 * Move to Employee and Employer Registration
 						 */
