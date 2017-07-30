@@ -73,19 +73,19 @@ public abstract class User
 	    			}else {
 	    				check = false;
 	    			}
-	    			searchCompany(user_input[2], user_input[4], check);
+	    			searchCompany(user_input[2], user_input[4], check, con);
 	    		}else if((user_input[0].toUpperCase()).equals("VIEWCOMPANY")) {
 	    			viewCompany(user_input[2], con );
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHJOB")) {
-	    			searchJob(user_input[2], user_input[4], Integer.parseInt(user_input[6]));
+	    			searchJob(user_input[2], user_input[4], Integer.parseInt(user_input[6]), con);
 	    		}else if((user_input[0].toUpperCase()).equals("EDITPROFILEATTRIBUTE")) {
-	    			editProfileAttribute(user_input[2], user_input[4]);
+	    			editProfileAttribute(user_input[2], user_input[4], isEmp, Integer.parseInt(id),  con);
 	    		}else if((user_input[0].toUpperCase()).equals("ADDPHONE")) {
-	    			addPhone(user_input[2], user_input[4]);
+	    			addPhone(user_input[2], user_input[4], Integer.parseInt(id), con);
 	    		}else if((user_input[0].toUpperCase()).equals("DELETEPHONE")) {
-	    			deletePhone(user_input[2]);
+	    			deletePhone(user_input[2], con);
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHREVIEWS")) {
-	    			searchReviews(user_input[2]);
+	    			searchReviews(user_input[2], con);
 	    		// Calling User specific methods
 	    		}else {
 	    			if (isEmp) {
@@ -196,11 +196,36 @@ public abstract class User
      * @param following
      * @return
      */
-    public static ResultSet searchCompany( String name, String location, boolean following )
-    {
-    	System.out.println("searchCompany method");
-        // TODO
-		return null;
+    public static void searchCompany( String name, String location, boolean following, Connection con )
+    { //test
+    	try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs;
+			if ( following )
+				rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
+			else
+				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name% and LOCATION LIKE %location%" );
+
+			System.out.println( "Companies: " );
+			while( rs.next() )
+			{
+				int companyID = rs.getInt( "COMPANYID" );
+				String resultName = rs.getString( "NAME" );
+				String email = rs.getString( "EMAIL" );
+				String description = rs.getString( "Description" );
+
+				System.out.println( "\t-Name: " + resultName );
+				System.out.println( "\t\tID: " + Integer.toString(companyID) );
+				System.out.println( "\t\tEmail: " + email );
+				System.out.println( "\t\tDescription: " + description );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}
+
+		return;
     }
 
     /**
@@ -277,11 +302,37 @@ public abstract class User
      * @param minimumSalary
      * @return
      */
-    public static ResultSet searchJob( String companyID, String role, int minimumSalary )
+    public static void searchJob( String companyID, String role, int minimumSalary, Connection con )
     {
-    	System.out.println("searchJob method");
-        // TODO
-		return null;
+    	//test
+    	try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs,name;
+			//if ( following )
+				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
+			//else
+				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %companyID% and ROLE LIKE %role% and SALARY>minimumSalary" );
+				name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
+			System.out.println( "Job listing: " );
+			while( rs.next() && name.next() )
+			{
+				int salary = rs.getInt( "SALARY" );
+				String resultName = name.getString( "NAME" );
+				String roles = rs.getString( "ROLE" );
+				String description = rs.getString( "Description" );
+
+				System.out.println( "\t-Name: " + resultName );
+				System.out.println( "\t\tID: " + companyID);
+				System.out.println( "\t\trole: " + roles );
+				System.out.println( "\t\tDescription: " + description );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}
+
+		return;
     }
 
     /**
@@ -289,11 +340,24 @@ public abstract class User
      * @param newVal
      * @return
      */
-    public static ResultSet editProfileAttribute( String attributeName, String newVal )
+    public static void editProfileAttribute( String attributeName, String newVal, boolean isEmp, int id, Connection con )
     {
-        System.out.println("editProfileAttr method");
-        // TODO
-		return null;
+    	try
+		{
+    		if (isEmp) {
+    			Statement stmt = con.createStatement();
+    			stmt.executeUpdate("update Employee Set attributeName = newVal where USERID= id");
+    			System.out.println( attributeName + " was updated with the new value" );	
+    		}else {
+    			Statement stmt = con.createStatement();
+    			stmt.executeUpdate("update Company Set attributeName = newVal where USERID= CompanyID");
+    			System.out.println( attributeName + " was updated with the new value" );	
+    			
+    		}
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}	
+
     }
 
     /**
@@ -301,11 +365,16 @@ public abstract class User
      * @param type
      * @return
      */
-    public static ResultSet addPhone(String newNumber, String type )
+    public static void addPhone(String newNumber, String type, int id, Connection con )
     {
-    	System.out.println("addPhone method");
-        // TODO
-		return null;
+    	try
+		{
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("insert into Phone values(id, newNumber, type)");
+			System.out.println( "Phone number added to profile" );
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}	
     }
 
 
@@ -315,22 +384,55 @@ public abstract class User
 
      * @return
      */
-    public static ResultSet deletePhone( String number )
+    public static void deletePhone( String number, Connection con )
     {
-        // TODO
-    	System.out.println("deletePhone method");
-    	return null;
+    	try
+		{
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("delete from Phone where NUMBER=number");
+			System.out.println("Phone number deleted from profile");
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}
     }
 
     /**
      * @param companyID
      * @return
      */
-    public static ResultSet searchReviews( String companyID )
+    public static void searchReviews( String companyID , Connection con)
     {
-    	System.out.println("searchReviews method");
-        // TODO
-		return null;
+    	try
+		{
+			Statement stmt = con.createStatement();
+			ResultSet rs, cName, eName;
+			//if ( following )
+				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
+			//else
+				rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %companyID% and ROLE LIKE %role% and SALARY>minimumSalary");
+				cName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
+			System.out.println( "Job listing: " );
+			while( rs.next() && cName.next())
+			{
+				int id = rs.getInt( "USERID" );
+				String companyName = cName.getString( "NAME" );
+				eName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
+				String employeeName = eName.getString( "NAME" );
+				String description = rs.getString( "Description" );
+				Boolean recomm = rs.getBoolean("RECOMMEND");
+				
+				System.out.println( "\t-Company Name: " + companyName);
+				System.out.println( "\t-Employee Name: " + employeeName);
+				System.out.println( "\t\tID: " + companyID);
+				System.out.println( "\t\tDescription: " + description );
+				System.out.println( "\t\tRecommended: " + recomm );
+			}
+
+		} catch ( Exception e ) {
+			System.out.println("Error: failed search for employees.");
+		}
+
+		return;
     }
 
     /**
