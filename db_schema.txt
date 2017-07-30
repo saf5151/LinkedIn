@@ -144,10 +144,24 @@ CREATE TABLE Connect (
 CREATE USER Company PASSWORD 'Company';
 CREATE USER Employee PASSWORD 'Employee';
 
-CREATE ROLE General_User;
+CREATE ROLE General_Employee;
+GRANT ALL
+ON Connect, Endorses, Follows, Past_Job, Job, Office
+TO General_Employee;
+GRANT SELECT
+ON Associates, Comp_Phone, Employs, Job, Office
+TO General_Employee;
 
+CREATE ROLE General_Company;
+GRANT ALL
+ON  Associates, Comp_Phone, Employs, Job, Office
+TO General_Company;
+GRANT SELECT
+ON Company, Employee, Endorses, Follows, Past_Job, Phone, Review, Skill
+TO General_Company;
 
-
+GRANT General_Employee TO Employee;
+GRANT General_Company TO Company;
 
 CREATE VIEW Anonymous_Review AS
 SELECT Company.CompanyID, Name, Review.description, Recommend
