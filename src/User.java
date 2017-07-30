@@ -197,15 +197,15 @@ public abstract class User
      * @return
      */
     public static void searchCompany( String name, String location, boolean following, Connection con )
-    { //test
+    { //test me
     	try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs;
 			if ( following )
-				rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
+				rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %'"+ name +"'%" ); // FIXME following filter
 			else
-				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name% and LOCATION LIKE %location%" );
+				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %'"+ name +"'% and LOCATION LIKE %'"+location+"'%" );
 
 			System.out.println( "Companies: " );
 			while( rs.next() )
@@ -222,7 +222,7 @@ public abstract class User
 			}
 
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed search for company.");
 		}
 
 		return;
@@ -304,7 +304,7 @@ public abstract class User
      */
     public static void searchJob( String companyID, String role, int minimumSalary, Connection con )
     {
-    	//test
+    	//test me
     	try
 		{
 			Statement stmt = con.createStatement();
@@ -312,8 +312,8 @@ public abstract class User
 			//if ( following )
 				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
 			//else
-				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %companyID% and ROLE LIKE %role% and SALARY>minimumSalary" );
-				name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
+				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %'"+ companyID +"'% and ROLE LIKE %'"+ role + "'% and SALARY>'"+ minimumSalary + "'" );
+				name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '"+companyID+"'" );
 			System.out.println( "Job listing: " );
 			while( rs.next() && name.next() )
 			{
@@ -329,7 +329,7 @@ public abstract class User
 			}
 
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed search for job listing.");
 		}
 
 		return;
@@ -341,21 +341,21 @@ public abstract class User
      * @return
      */
     public static void editProfileAttribute( String attributeName, String newVal, boolean isEmp, int id, Connection con )
-    {
+    {// test me
     	try
 		{
     		if (isEmp) {
     			Statement stmt = con.createStatement();
-    			stmt.executeUpdate("update Employee Set attributeName = newVal where USERID= id");
+    			stmt.executeUpdate("update Employee Set '"+ attributeName +"' = '"+ newVal +"' where USERID= '" + id + "'");
     			System.out.println( attributeName + " was updated with the new value" );	
     		}else {
     			Statement stmt = con.createStatement();
-    			stmt.executeUpdate("update Company Set attributeName = newVal where USERID= CompanyID");
+    			stmt.executeUpdate("update Company Set '"+ attributeName +"' = '" + newVal + "' where COMPANYID = '"+ id + "'");
     			System.out.println( attributeName + " was updated with the new value" );	
     			
     		}
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed to edit attribute.");
 		}	
 
     }
@@ -366,14 +366,14 @@ public abstract class User
      * @return
      */
     public static void addPhone(String newNumber, String type, int id, Connection con )
-    {
+    { //test me
     	try
 		{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("insert into Phone values(id, newNumber, type)");
+			stmt.executeUpdate("insert into Phone values('"+id+"', '"+newNumber+"', '"+type+"')");
 			System.out.println( "Phone number added to profile" );
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed to add phone number.");
 		}	
     }
 
@@ -389,10 +389,10 @@ public abstract class User
     	try
 		{
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("delete from Phone where NUMBER=number");
+			stmt.executeUpdate("delete from Phone where NUMBER = '"+ number + "'");
 			System.out.println("Phone number deleted from profile");
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed to delete phone number.");
 		}
     }
 
@@ -401,7 +401,7 @@ public abstract class User
      * @return
      */
     public static void searchReviews( String companyID , Connection con)
-    {
+    { //test me
     	try
 		{
 			Statement stmt = con.createStatement();
@@ -409,14 +409,14 @@ public abstract class User
 			//if ( following )
 				//rs = stmt.executeQuery("SELECT * FROM Company WHERE NAME LIKE %name%" ); // FIXME following filter
 			//else
-				rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %companyID% and ROLE LIKE %role% and SALARY>minimumSalary");
-				cName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
-			System.out.println( "Job listing: " );
-			while( rs.next() && cName.next())
+				rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %'"+companyID+"'%");
+				cName = stmt.executeQuery( "SELECT * FROM COMPANY WHERE COMPANYID = '"+companyID+"'" );
+			System.out.println( "Reviews: " );
+			while( rs.next())
 			{
 				int id = rs.getInt( "USERID" );
 				String companyName = cName.getString( "NAME" );
-				eName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = companyID" );
+				eName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '" + id + "'" );
 				String employeeName = eName.getString( "NAME" );
 				String description = rs.getString( "Description" );
 				Boolean recomm = rs.getBoolean("RECOMMEND");
@@ -429,7 +429,7 @@ public abstract class User
 			}
 
 		} catch ( Exception e ) {
-			System.out.println("Error: failed search for employees.");
+			System.out.println("Error: failed to find reviews");
 		}
 
 		return;
