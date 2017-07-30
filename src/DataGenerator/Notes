@@ -1,0 +1,29 @@
+Assumptions:
+
+Attributes recommend, searching, hiring, number, and ID's are stored as integers.
+All other attributes are unrestricted strings.
+All tables are named the same as shown in Relational Schema in Phase 2 write up.
+
+
+Flow:
+
+setup - user, company
+pop - user, company
+pop - user, Employee
+setup - everything else (lots will be blank)
+pop - everything else
+pop skill,endorses
+
+Go back:
+Activity
+Check getTable
+
+tC9z@Yf8
+
+For them:
+close your scanners
+you only need one scanner
+
+sample:
+insert into user values ('bisness@gmail.com','password','Employee');
+insert into company values (010,'bears inc.','balh blah','bisness@gmail.com',TRUE);

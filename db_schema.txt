@@ -29,8 +29,8 @@ CREATE TABLE Company (
   description VARCHAR(100),
   email VARCHAR(75) NOT NULL UNIQUE,
   hiring BOOLEAN,
-  PRIMARY KEY (companyID)
-  FOREIGN KEY ( email ) REFERENCES User
+  PRIMARY KEY (companyID),
+  FOREIGN KEY ( email ) REFERENCES User(email)
 );
 CREATE INDEX company_index ON Company(name); // companies will be searched for by name
 

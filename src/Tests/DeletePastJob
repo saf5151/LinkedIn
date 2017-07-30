@@ -1,0 +1,6 @@
+1
+erb8134@gmail.com
+blahblah
+deleteSkill -name singing
+deletePastJob -role singer -id 2
+quit
