@@ -1,9 +1,12 @@
 //package src;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import java.io.File;
@@ -112,11 +115,14 @@ public class ApplicationMain extends User
 							 */
 							stmt.executeUpdate("insert into USER values('" + user_name + "', '"+ password +"', 'Employee')");
 							con.close();
-							con = DriverManager.getConnection(dbpath, "Employee", "Employee");
+							con = DriverManager.getConnection(dbpath, "admin", "admin");//fix me to login with employee user
 							employee.setConnection(con);
 							employee.employeeRegisteration(user_name, password);
 						} else {
 							stmt.executeUpdate("insert into USER values('" + user_name + "', '"+ password +"', 'Company')");
+							con.close();
+							con = DriverManager.getConnection(dbpath, "admin", "admin");//fix me to login with Company user
+							employer.setConnection(con);
 							employer.employerRegisteration(user_name, password);
 						}
 						/*********************************

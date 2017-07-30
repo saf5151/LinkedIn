@@ -25,18 +25,26 @@ public class Employer extends User {
 		/* 
 		 * Do we need data validation???
 		 */
-        System.out.println("Company Name: ");
-        name = Name.next();
-        System.out.println("Description: ");
-        description = Description.next();
-        System.out.println("Currently Hiring (y/n): ");
-        hiringStr = Hiring.next();
-        if (hiringStr.equals("y") || hiringStr.equals("Y")) {
-            hiring = true;
-        } else {
-            hiring = false;
+        try {
+        	//System.out.println("Before");
+			Statement stmt = this.con.createStatement();
+	        System.out.println("Company Name: ");
+	        name = Name.next();
+	        System.out.println("Description: ");
+	        description = Description.next();
+	        System.out.println("Currently Hiring (y/n): ");
+	        hiringStr = Hiring.next();
+	        if (hiringStr.equals("y") || hiringStr.equals("Y")) {
+	            hiring = true;
+	        } else {
+	            hiring = false;
+	        }
+	        stmt.executeUpdate("insert into Company (name, description, email, hiring) Values('" + name + "', '"+ description +"', '"+ email +"', '"+ hiring +"')");
+	        return true;
+        }catch (Exception e) {
+			System.out.println("User was Registered, but the profile information were not saved. Error Message: " + e.getMessage());
+			return false;
         }
-        return true;
 		/*
 		 * Update db with employee information
 		 */
