@@ -36,32 +36,39 @@ public class Employee extends User {
 		/* 
 		 * Do we need data validation???
 		 */
-		System.out.println("Full Name: ");
-		name = Name.next();
-		System.out.println("Alma Mater: ");
-		almaMater = AlmaMater.next();
-		System.out.println("Major: ");
-		major = Major.next();
-		System.out.println("GPA: ");
-		gpaStr = Gpa.next();
-		gpa = Double.parseDouble(gpaStr);
-		System.out.println("Phone Number (seperate by comma if multiple): ");
-		phone = (Phone.next()).split(",");
-		System.out.println("Date of Birth (format: MM/DD/YYYY): ");
-		dob = Dob.next();
-		System.out.println("Location (format: city, state): ");
-		location = (Location.next()).split(",");
-		city = location[0];
-		state = location[1];
-		//System.out.println(city);
-		System.out.println("Would you like to be discoverable by employers(y/n)? ");
-		searchStr = Search.next();
-		if (searchStr.equals("y") || searchStr.equals("Y")) {
-			search = true;
-		}else {
-			search = false;
+		try {
+			Statement stmt = this.con.createStatement();
+			System.out.println("Full Name: ");
+			name = Name.next();
+			System.out.println("Alma Mater: ");
+			almaMater = AlmaMater.next();
+			System.out.println("Major: ");
+			major = Major.next();
+			System.out.println("GPA: ");
+			gpaStr = Gpa.next();
+			gpa = Double.parseDouble(gpaStr);
+			System.out.println("Phone Number (seperate by comma if multiple): ");
+			phone = (Phone.next()).split(",");
+			System.out.println("Date of Birth (format: MM/DD/YYYY): ");
+			dob = Dob.next();
+			System.out.println("Location (format: city, state): ");
+			location = (Location.next()).split(",");
+			city = location[0];
+			state = location[1];
+			//System.out.println(city);
+			System.out.println("Would you like to be discoverable by employers(y/n)? ");
+			searchStr = Search.next();
+			if (searchStr.equals("y") || searchStr.equals("Y")) {
+				search = true;
+			}else {
+				search = false;
+			}
+			stmt.executeUpdate("insert into Employee (name, alma_mater, major, gpa, email, dob, city, state, searching) Values('" + name + "', '"+ almaMater +"', '"+ major +"', '"+ gpa +"', '"+ email +"', '"+ dob +"', '"+ city +"', '"+ state +"', '"+ search +"')");
+			return true;
+		}catch ( Exception e ){
+			System.out.println("User was Registered, but the profile information were not saved -->" + e.getMessage());
+			return false;
 		}
-		return true;
 		/*
 		 * Update db with employee information
 		 */

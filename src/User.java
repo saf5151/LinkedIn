@@ -11,7 +11,7 @@ public abstract class User
     private static boolean out,check;
     private static String user_inputStr,method;
     private static String[] user_input;
-    protected Connection con;
+    public Connection con;
 
     public static boolean userLoop (String name, String id, boolean isEmp, Connection con) {
     	out = true;
@@ -116,7 +116,7 @@ public abstract class User
 			Statement stmt = con.createStatement();
 			ResultSet rs;
 			if ( following )
-				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%" ); // FIXME following filter
+				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%"); // FIXME following filter
 			else
 				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name%" );
 
