@@ -14,7 +14,7 @@ public class Skill extends Entry implements Reader{
 	
 	public void setup() {
 		
-		String fileName = "Skills";
+		String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Skills";
 
         String line = null;
         

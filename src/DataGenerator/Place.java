@@ -20,7 +20,7 @@ public class Place {
         String line = null;
 		
 		try {
-			String fileName = "Cities";
+			String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Cities.txt";
             FileReader fileReader = 
                 new FileReader(fileName);
 
@@ -35,7 +35,7 @@ public class Place {
             
             bufferedReader.close();
             
-            fileName = "States";
+            fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\States";
             fileReader = new FileReader(fileName);
 
             bufferedReader = new BufferedReader(fileReader);

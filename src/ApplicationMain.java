@@ -6,6 +6,10 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.Scanner;
 
+import java.io.File;
+
+import DataGenerator.*;
+
 public class ApplicationMain extends User
 {
     public static void main ( String[] args ) {
@@ -21,7 +25,7 @@ public class ApplicationMain extends User
 		Employer employer = new Employer();
 		//User user = new User();
 
-		String dbpath = "jdbc:h2:file:C:/Users/Aziz/OneDrive/Documents/workspace/Linkedin/db/linkedin";
+		String dbpath = "jdbc:h2:~/Dropbox/CSCI 320/LinkedIn/db/linkedin";
 
 		try
 		{
@@ -29,6 +33,8 @@ public class ApplicationMain extends User
 			Class.forName("org.h2.Driver");
 			Connection con = DriverManager.getConnection( dbpath, "admin", "admin");
 			Statement stmt = con.createStatement();
+			DataGenerator.Main.setup(stmt);
+
 
 			for (; ; ) {
 				System.out.println("1- Login\n2- Register\n3- Help\n>>>");
@@ -189,4 +195,7 @@ public class ApplicationMain extends User
         } catch ( Exception e ) {
             System.out.println("Error: " + e.getMessage());
         }*/
+        public static void setInput(File input){
+
+		}
 }

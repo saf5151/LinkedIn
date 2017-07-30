@@ -73,7 +73,7 @@ public abstract class User
 	    			}else {
 	    				check = false;
 	    			}
-	    			searchCompany(user_input[2], user_input[4], check, con);
+	    			searchCompany(user_input[2], user_input[4], con );
 	    		}else if((user_input[0].toUpperCase()).equals("VIEWCOMPANY")) {
 	    			viewCompany(user_input[2], con );
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHJOB")) {
@@ -400,7 +400,7 @@ public abstract class User
     	try
 		{
 			Statement stmt = con.createStatement();
-			ResultSet rs, cName, eName
+			ResultSet rs, cName, eName;
 			rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %'"+companyID+"'%");
 			cName = stmt.executeQuery( "SELECT * FROM COMPANY WHERE COMPANYID = '"+companyID+"'" );
 			System.out.println( "Reviews: " );

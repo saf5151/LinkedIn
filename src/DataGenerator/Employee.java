@@ -33,7 +33,7 @@ public class Employee extends Entry implements Reader{
         String line = null;
 		
 		try {
-			String fileName = "Names";
+			String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Names.txt";
             FileReader fileReader = 
                 new FileReader(fileName);
 
@@ -51,7 +51,7 @@ public class Employee extends Entry implements Reader{
             
             bufferedReader.close();
 			
-			fileName = "Colleges";
+			fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Colleges.txt";
             fileReader = 
                 new FileReader(fileName);
 
@@ -66,7 +66,7 @@ public class Employee extends Entry implements Reader{
             
             bufferedReader.close();
             
-			fileName = "Majors";
+			fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Majors.txt";
             fileReader = 
                 new FileReader(fileName);
 
@@ -82,7 +82,8 @@ public class Employee extends Entry implements Reader{
             bufferedReader.close();
             
         }catch(Exception e){
-            System.out.println("Error");                
+            System.out.println("Error");
+            System.out.println(e.getMessage());
         }
 	}
 
@@ -98,19 +99,6 @@ public class Employee extends Entry implements Reader{
 		String city = Place.getCity();
 		String state = Place.getState();
 		String email = "";
-		int num = numUsers;
-		int space = 1;
-		char n = 'a';
-		while(num > 0){
-			while(num % (space * 26) != 0){
-				num -= space;
-				n++;
-			}
-			email += n;
-			space *= 26;
-			n = 'a';
-		}
-		email += "@gmail.com";
 		email = User.getEmail();
 		int s = rand.nextInt(2);
 		String alma = getCollege();

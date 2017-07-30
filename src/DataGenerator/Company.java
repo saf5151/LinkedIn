@@ -13,7 +13,7 @@ public class Company extends Entry implements Reader{
 	
 	public void setup() {
 		
-		String fileName = "CompanyNames";
+		String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\CompanyNames.txt";
 
         String line = null;
         

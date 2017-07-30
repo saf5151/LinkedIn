@@ -7,6 +7,7 @@ import java.util.Random;
 public class Main {
 	
 	public static void setup(Statement stmt){
+		System.out.println("Data generator started");
 		Entry[] things = new Entry[10];
 		int[] amount = new int[10];
 		things[0] = new Phone();
@@ -51,6 +52,7 @@ public class Main {
 			add(user,stmt);
 			add(company,stmt);
 		}
+		System.out.println("Finished Company");
 		
 		user.setType(0);
 		for(int i = 0; i < 500; i++){
@@ -59,17 +61,17 @@ public class Main {
 		}
 		
 		for(int j = 0; j < 10; j++){
-			for(int i = amount[j]; i > 0; i++){
+			for(int i = amount[j]; i > 0; i--){
 				add(things[j],stmt);
 			}
 		}
 		
 		Random rand = new Random();
-		for(int i = 0; i < 2000; i++){
-			add(skill,stmt);
-			if(rand.nextBoolean()){
-				if(rand.nextBoolean()){
-					add(endorses,stmt);
+		for(int i = 0; i < 2000; i++) {
+			add(skill, stmt);
+			if (rand.nextBoolean()) {
+				if (rand.nextBoolean()) {
+					add(endorses, stmt);
 				}
 			}
 		}

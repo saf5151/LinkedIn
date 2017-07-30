@@ -21,7 +21,7 @@ public class Jackson {
 		return null;
 	}
 	public static void setup(){
-		String fileName = "Jackson";
+		String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Jackson.txt";
         
 		try {
             FileReader fileReader = 

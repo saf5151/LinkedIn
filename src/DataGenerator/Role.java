@@ -25,7 +25,7 @@ public class Role {
         String line = null;
 		
 		try {
-			String fileName = "Role1";
+			String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role1";
             FileReader fileReader = 
                 new FileReader(fileName);
 
@@ -40,7 +40,7 @@ public class Role {
             
             bufferedReader.close();
             
-            fileName = "Role2";
+            fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role2";
             fileReader = new FileReader(fileName);
 
             bufferedReader = new BufferedReader(fileReader);
@@ -53,7 +53,7 @@ public class Role {
             
             bufferedReader.close();
             
-            fileName = "Role3";
+            fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role3";
             fileReader = new FileReader(fileName);
 
             bufferedReader = new BufferedReader(fileReader);
@@ -67,7 +67,8 @@ public class Role {
             bufferedReader.close();
             
         }catch(Exception e){
-            System.out.println("Error");                
+            System.out.println("Error");
+            System.out.println(e.getMessage());
         }
 	}
 }

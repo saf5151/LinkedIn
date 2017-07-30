@@ -11,11 +11,11 @@ public class Test {
     /**
      * @param args
      */
-    public static void main(String[] args)
+    public static void main(String[] args) throws Exception
     {
     	int ID = 0;
     	
-    	Statement stmt = new Statement();
+    	Statement stmt = null;
     	String fileName = "Test.EmployeeRegister";
     	File input = new File(fileName);
     	ApplicationMain.setInput(input);
