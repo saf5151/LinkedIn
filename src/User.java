@@ -73,7 +73,7 @@ public abstract class User
 	    			}else {
 	    				check = false;
 	    			}
-	    			searchCompany(user_input[2], user_input[4], check, con);
+	    			searchCompany(user_input[2], user_input[4], con);
 	    		}else if((user_input[0].toUpperCase()).equals("VIEWCOMPANY")) {
 	    			viewCompany(user_input[2], con );
 	    		}else if((user_input[0].toUpperCase()).equals("SEARCHJOB")) {

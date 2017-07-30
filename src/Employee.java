@@ -1,5 +1,8 @@
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Employee extends User {
@@ -24,6 +27,9 @@ public class Employee extends User {
      * @return: true for completed registration, false for failed registration
      */
 	public boolean employeeRegisteration(String email, String password) {
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
+		java.util.Date dobDate;
+		SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
 		Scanner Name = new Scanner(System.in);
 		Scanner AlmaMater = new Scanner(System.in);
 		Scanner Major = new Scanner(System.in);
@@ -32,6 +38,7 @@ public class Employee extends User {
 		Scanner Dob = new Scanner(System.in);
 		Scanner Location = new Scanner(System.in);
 		Scanner Search = new Scanner(System.in);
+		
 		//System.out.println("Got it from" + email);
 		/* 
 		 * Do we need data validation???
@@ -49,9 +56,13 @@ public class Employee extends User {
 			gpa = Double.parseDouble(gpaStr);
 			System.out.println("Phone Number (seperate by comma if multiple): ");
 			phone = (Phone.next()).split(",");
-			System.out.println("Date of Birth (format: MM/DD/YYYY): ");
+			System.out.println("Date of Birth (format: YYYY-MM-DD): ");
 			dob = Dob.next();
-			System.out.println("Location (format: city, state): ");
+			//dobDate = df.parse(dob);
+			//System.out.println(dt1.format(dobDate));
+			//dob = dt1.format(dobDate);
+			//System.out.println(dob);
+			System.out.println("Location (format: city,state): ");
 			location = (Location.next()).split(",");
 			city = location[0];
 			state = location[1];
@@ -63,10 +74,11 @@ public class Employee extends User {
 			}else {
 				search = false;
 			}
-			stmt.executeUpdate("insert into Employee (name, alma_mater, major, gpa, email, dob, city, state, searching) Values('" + name + "', '"+ almaMater +"', '"+ major +"', '"+ gpa +"', '"+ email +"', '"+ dob +"', '"+ city +"', '"+ state +"', '"+ search +"')");
+			
+			stmt.executeUpdate("insert into Employee (name, alma_mater, major, gpa, email, dob, city, state, searching) Values('" + name + "', '"+ almaMater +"', '"+ major +"', '"+ gpa +"', '"+ email +"', Date '"+ dob +"', '"+ city +"', '"+ state +"', '"+ search +"')");
 			return true;
 		}catch ( Exception e ){
-			System.out.println("User was Registered, but the profile information were not saved -->" + e.getMessage());
+			System.out.println("User was Registered, but the profile information were not saved. Error Message: " + e.getMessage());
 			return false;
 		}
 		/*
