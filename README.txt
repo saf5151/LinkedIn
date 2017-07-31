@@ -13,3 +13,4 @@ Project Build Instructions:
 4. Run the command to run the project, specifying the path to the the H2 jar file, and the database file:
    ex: "java -classpath "C:\Users\Aziz\OneDrive\Documents\workspace\Linkedin\bin;C:\Program Files (x86)\H2\bin\h2-1.4.196.jar" ApplicationMain"
    The jar file has been pre-packaged in the db directory of the project, so you can use that address.
+5. Go to DataData in the the DataGenerator folder and change the PATH variable to the directory of the source code. (Only if you are going to run the DataGenerator)

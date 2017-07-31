@@ -5,3 +5,4 @@ addPhone -newNumber 8023392107 -type home
 addPhone -newNumber 8022292107 -type home
 deletePhone -number 8023392107
 quit
+4

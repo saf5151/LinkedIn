@@ -11,9 +11,9 @@ public class Jackson {
 			String line = null;
 			if((line = quotes.readLine()) == null){
 				setup();
-				return quotes.readLine();
+				return quotes.readLine().substring(0, 90);
 			}else{
-				return line;
+				return line.substring(0, 90);
 			}
 		} catch (IOException e){
 			e.printStackTrace();
@@ -21,7 +21,7 @@ public class Jackson {
 		return null;
 	}
 	public static void setup(){
-		String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Jackson.txt";
+		String fileName = DataData.PATH + "\\DataGenerator\\Jackson.txt";
         
 		try {
             FileReader fileReader = 

@@ -13,7 +13,7 @@ public class Company extends Entry implements Reader{
 	
 	public void setup() {
 		
-		String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\CompanyNames.txt";
+		String fileName = DataData.PATH + "\\DataGenerator\\CompanyNames.txt";
 
         String line = null;
         
@@ -32,8 +32,7 @@ public class Company extends Entry implements Reader{
             }   
 
             bufferedReader.close();         
-        }catch(Exception e){
-            System.out.println("Error");                
+        }catch(Exception e){              
         }
 	}
 	
@@ -42,14 +41,21 @@ public class Company extends Entry implements Reader{
 	}
 	public String value(){
 		String out;
-		numComps++;
+		
 		int ID = numComps;
+		numComps++;
 		String name = getCompanyName();
 		String description = Jackson.saySomething();
 		int hiring = new Random().nextInt(2);
+		String hiringS = "";
+		if(hiring == 1){
+			hiringS = "TRUE";
+		}else{
+			hiringS = "FALSE";
+		}
 		String email = User.getEmail();
 		
-		out = "(" + ID + ",'" + name + "','" + description + "','" + email + "'," + hiring + ")";
+		out = "(" + ID + ",'" + name + "','" + description + "','" + email + "'," + hiringS + ")";
 		
 		return out;
 	}

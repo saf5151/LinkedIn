@@ -1,0 +1,1 @@
+The tests cover all paths a user could take to edit the database. Each test simulates a series of user inputs then checks the database to see if the expected change happened. All tests are contianed in the test.java file. All user inputs are contianed in the test folder.

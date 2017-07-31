@@ -12,9 +12,9 @@ public class Endorses extends Entry{
 		String out;
 		
 		Random rand = new Random();
-		int EID = Skill.lastID;
-		int UID = 0;
-		while((UID = rand.nextInt(Employee.numUsers)) == EID){}
+		int UID = Skill.lastID;
+		int EID = 0;
+		while((EID = rand.nextInt(Employee.numUsers)) == UID){}
 		String skill = Skill.lastName;
 		out = "(" + EID + "," + UID + ",'" + skill+ "')";
 		return out;
