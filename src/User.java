@@ -1,4 +1,13 @@
-import java.sql.Connection; // FIXME might not be necessary
+/**
+ * filename: User.java
+ * author: Swan Ronson
+ * date: 7/30/17
+ *
+ * The User class serves as a superclass to Employee, and Employer.  It provides the general
+ * user-loop, some basic fields, and getters/setters.
+ * This class corresponds directly to the User table in the database
+ */
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
@@ -13,14 +22,20 @@ public abstract class User
     private static String[] user_input;
     public Connection con;
 
+	/**
+	 * @param name: name of the user
+	 * @param id: id of the user ( company or employee )
+	 * @param isEmp: boolean to distinguish between employees and employers
+	 * @param con: connection to the database
+	 *
+	 * The main program loop that loops until the user decides to quit the system.
+	 * Here they can enter commands to search employees, companies, jobs, etc.
+	 */
     public static boolean userLoop (String name, String id, boolean isEmp, Connection con) {
     	out = true;
     	Employee employee = new Employee();
     	Employer employer = new Employer();
-		// FIXME scoping is messed up for the connection
 
-
-    	//Class cls = User.class;
     	while (out == true) {
     		try {
 	    		System.out.println("Welcome " + name + ",");
@@ -117,11 +132,7 @@ public abstract class User
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs;
-			if ( following )
-				rs = stmt.executeQuery("SELECT * FROM Employee WHERE Name LIKE %name%"); // FIXME following filter
-			else
-				rs = stmt.executeQuery( "SELECT * FROM Employee WHERE NAME LIKE %name%" );
-
+			rs = stmt.executeQuery("SELECT * FROM Employee WHERE NAME LIKE '%" + name + "%'");
 			System.out.println( "Users: " );
 			while( rs.next() )
 			{
@@ -145,17 +156,20 @@ public abstract class User
 		return;
     }
 
-    /**
-     * @param id: the userID of the employee that you want to see
-     */
+	/**
+	 * @param id: the userID of the employee that you want to see
+	 * @param con: connection to the database
+	 *
+	 * Prints out all of the information for the specified employee. Gives a more detailed view than searchEmployee()
+	 */
     public static void viewEmployee( String id, Connection con )
     {
 		try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet profile = stmt.executeQuery("SELECT * FROM Employee WHERE userID='" + id + "'" );
-			ResultSet pastJobs = stmt.executeQuery( "SELECT PAST_JOB.COMPANYID, PAST_JOB.DESCRIPTION AS DESC, ROLE, NAME\n" +
-					"FROM PAST_JOB JOIN COMPANY WHERE companyID='" + id + "'");
+			ResultSet pastJobs = stmt.executeQuery( "SELECT PAST_JOB.COMPANYID, PAST_JOB.DESCRIPTION AS DESCRIPTION, ROLE, NAME AS COMPANY" +
+					"FROM PAST_JOB JOIN COMPANY ON COMPANY.COMPANYID WHERE PAST_JOB.companyID='" + id + "'" );
 
 			System.out.println( "User Profile Information:" );
 			while( profile.next() )
@@ -176,9 +190,9 @@ public abstract class User
 			System.out.println( "\nPast Jobs: " );
 			while( pastJobs.next() )
 			{
-				String name = pastJobs.getString( "name" );
+				String name = pastJobs.getString( "company" );
 				String role = pastJobs.getString( "role" );
-				String desc = pastJobs.getString( "PAST_JOB.DESCRIPTION" );
+				String desc = pastJobs.getString( "DESCRIPTION" );
 
 				System.out.println( "\t-" + name );
 				System.out.println( "\t\tRole: " + role );
@@ -192,22 +206,19 @@ public abstract class User
 		return;
     }
 
-    /**
-     * @param name
-     * @param location
-     * @param following
-     * @return
-     */
+	/**
+	 * @param name: company name
+	 * @param location: location of the company
+	 * @param con: connection to the database
+	 *
+	 * Searching for companies with names similar to the one you searched
+	 */
     public static void searchCompany( String name, String location, Connection con )
     { //test me
     	try
 		{
 			Statement stmt = con.createStatement();
-			ResultSet rs;
-			if ( location.equals( "null" ) )
-				rs = stmt.executeQuery( "SELECT * FROM Employee_View WHERE NAME LIKE %'"+ name +"'%" );
-			else
-				rs = stmt.executeQuery( "SELECT * FROM Employee_View WHERE NAME LIKE %'"+ name +"'% and LOCATION LIKE %'"+location+"'%" );
+			ResultSet rs = stmt.executeQuery( "SELECT * FROM Company_View WHERE NAME LIKE '%"+ name +"%'" );
 
 			System.out.println( "Companies: " );
 			while( rs.next() )
@@ -228,10 +239,12 @@ public abstract class User
 		return;
     }
 
-    /**
-     * @param id
-     * @return
-     */
+	/**
+	 * @param id: company id
+	 * @param con: connection to the database
+	 *
+	 * Gives a detailed view of a company, including their profile info, office locations, and average review score
+	 */
     public static void viewCompany( String id, Connection con )
     {
 		try
@@ -296,12 +309,13 @@ public abstract class User
     }
 
 
-    /**
-     * @param companyID
-     * @param role
-     * @param minimumSalary
-     * @return
-     */
+	/**
+	 * @param companyID: ID of the company whose jobs you want to see
+	 * @param role: role you want to use
+	 * @param minimumSalary: minimum salary you are willing to accept
+	 *
+	 * Searches for all jobs that meet a few
+	 */
     public static void searchJob( String companyID, String role, int minimumSalary, Connection con )
     {
     	//test me
@@ -309,13 +323,15 @@ public abstract class User
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs,name;
-			rs = stmt.executeQuery( "SELECT * FROM Employee WHERE CompanyID LIKE %'"+ companyID +"'% and ROLE LIKE %'"+ role + "'% and SALARY>'"+ minimumSalary + "'" );
-			name = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '"+companyID+"'" );
+			rs = stmt.executeQuery( "SELECT * FROM Job WHERE CompanyID ='"+ companyID + "' and ROLE LIKE '%"+ role + "%' and SALARY>'"+ minimumSalary + "'" );
+
+			name = stmt.executeQuery( "SELECT NAME FROM Company WHERE COMPANYID ='"+companyID+"'" );
+			String resultName = name.getString( "NAME" );
+
 			System.out.println( "Job listing: " );
-			while( rs.next() && name.next() )
+			while( rs.next() )
 			{
 				int salary = rs.getInt( "SALARY" );
-				String resultName = name.getString( "NAME" );
 				String roles = rs.getString( "ROLE" );
 				String description = rs.getString( "Description" );
 
@@ -332,11 +348,15 @@ public abstract class User
 		return;
     }
 
-    /**
-     * @param attributeName
-     * @param newVal
-     * @return
-     */
+	/**
+	 * @param attributeName: name of the column you want to edit
+	 * @param newVal: new value that will go into the column
+	 * @param isEmp: boolean to indicate whether or not the user is an employee
+	 * @param id: the id that identifies the user in either the Employee or Company table
+	 * @param con: connection to the database
+	 *
+	 * General function for updating a user's profile information
+	 */
     public static void editProfileAttribute( String attributeName, String newVal, boolean isEmp, int id, Connection con )
     {// test me
     	try
@@ -357,11 +377,14 @@ public abstract class User
 
     }
 
-    /**
-     * @param newNumber
-     * @param type
-     * @return
-     */
+	/**
+	 * @param newNumber: your new phone number
+	 * @param type: type of phone, must be 'cell', 'work', 'home', or 'other'.
+	 * @param id: id of the user who is adding the phone number
+	 * @param con: connection to the database
+	 *
+	 * Adds a new phone number to an Employees account
+	 */
     public static void addPhone(String newNumber, String type, int id, Connection con )
     { //test me
     	try
@@ -377,10 +400,11 @@ public abstract class User
 
 
 	/**
-     * @param number
-
-     * @return
-     */
+	 * @param number: the phone number you want to delete
+	 * @param con: connection to the database
+	 *
+	 * Deletes a phone number from an Employees account
+	 */
     public static void deletePhone( String number, Connection con )
     {
     	try
@@ -393,30 +417,28 @@ public abstract class User
 		}
     }
 
-    /**
-     * @param companyID
-     * @return
-     */
+	/**
+	 * @param companyID: the id of the company whose reviews you want to see
+	 * @param con: connection to the database
+	 *
+	 * Searches for all reviews
+	 */
     public static void searchReviews( String companyID , Connection con)
-    { //test me
+    {
     	try
 		{
 			Statement stmt = con.createStatement();
 			ResultSet rs, cName, eName;
-			rs = stmt.executeQuery( "SELECT * FROM Review WHERE CompanyID LIKE %'"+companyID+"'%");
-			cName = stmt.executeQuery( "SELECT * FROM COMPANY WHERE COMPANYID = '"+companyID+"'" );
+			rs = stmt.executeQuery( "SELECT * FROM Anonymous_Review WHERE CompanyID='"+companyID+"'");
+
 			System.out.println( "Reviews: " );
 			while( rs.next())
 			{
-				int id = rs.getInt( "USERID" );
-				String companyName = cName.getString( "NAME" );
-				eName = stmt.executeQuery( "SELECT * FROM Employee WHERE COMPANYID = '" + id + "'" );
-				String employeeName = eName.getString( "NAME" );
+				String companyName = rs.getString( "NAME" );
 				String description = rs.getString( "Description" );
 				Boolean recomm = rs.getBoolean("RECOMMEND");
 				
 				System.out.println( "\t-Company Name: " + companyName);
-				System.out.println( "\t-Employee Name: " + employeeName);
 				System.out.println( "\t\tID: " + companyID);
 				System.out.println( "\t\tDescription: " + description );
 				System.out.println( "\t\tRecommended: " + recomm );
@@ -429,18 +451,13 @@ public abstract class User
 		return;
     }
 
-    /**
-     * @return
-     */
+    /** GETTERS */
+
     public String getEmail()
     {
         return this.email;
     }
 
-	/**
-	 *
-	 * @param con
-	 */
 	public void setConnection(Connection con) {
 		this.con = con;
 	}

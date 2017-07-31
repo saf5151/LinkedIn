@@ -1,3 +1,11 @@
+/**
+ * filename: Employee.java
+ * author: Swan Ronson
+ * date: 7/30/17
+ *
+ * The Employee class specifies all of the functionality that is exclusive to Employees
+ */
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Statement;
@@ -6,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Employee extends User {
+	/** These fields correspond to the values of a row in the db, kept locally to avoid extra querying */
 	private int id, age;
 	private String email;
 	private String almaMater;
@@ -30,11 +39,7 @@ public class Employee extends User {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
 		java.util.Date dobDate;
 		SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
-		
-		//System.out.println("Got it from" + email);
-		/* 
-		 * Do we need data validation???
-		 */
+
 		try {
 			Statement stmt = this.con.createStatement();
 			System.out.println("Full Name: ");
@@ -50,10 +55,6 @@ public class Employee extends User {
 			phone = (ApplicationMain.inst.next()).split(",");
 			System.out.println("Date of Birth (format: YYYY-MM-DD): ");
 			dob = ApplicationMain.inst.next();
-			//dobDate = df.parse(dob);
-			//System.out.println(dt1.format(dobDate));
-			//dob = dt1.format(dobDate);
-			//System.out.println(dob);
 			System.out.println("Location (format: city,state): ");
 			location = (ApplicationMain.inst.next()).split(",");
 			city = location[0];
@@ -73,19 +74,7 @@ public class Employee extends User {
 			System.out.println("User was Registered, but the profile information were not saved. Error Message: " + e.getMessage());
 			return false;
 		}
-		/*
-		 * Update db with employee information
-		 */
-		
-		/*
-		Name.close();
-		AlmaMater.close();
-		Major.close();
-		Gpa.close();
-		Phone.close();
-		Dob.close();
-		Location.close();
-		Search.close();*/
+
 	}
 	/**
      * @param user_input: an Array containing the method to be called and parameters

@@ -1,4 +1,12 @@
-//package src;
+/**
+ * filename: ApplicationMain.java
+ * authors: Swan Ronson
+ * date: 7/30/17
+ *
+ * The ApplicationMain class serves as the entry point into the program.  The database has been
+ * been pre-built, so the SQL commands are not listed there. To see a full listing of all commands
+ * used to create the tables, views, indices, users, and roles, reference the db_schema.txt file.
+ */
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -17,6 +25,16 @@ import DataGenerator.*;
 public class ApplicationMain extends User
 {
 	public static Scanner inst = new Scanner(System.in);
+
+	/**
+	 * @param args: unused command-line args
+	 *
+	 * Enters the user into a login loop where they can either log in to our database as an existing
+	 * user, or create a new account.
+	 * A user can be either an Employee, or a Company.  Once that is determined, the user is connected
+	 * to the database with their corresponding database user.
+	 * Once the user is logged in, they are redirected to the main program loop (found inside the User class)
+	 */
     public static void main ( String[] args ) {
 		String caseChoice, user_name, password, email, isEmployee;
 		Boolean isEmpB, tmp;
@@ -26,7 +44,7 @@ public class ApplicationMain extends User
 		Employer employer = new Employer();
 		//User user = new User();
 
-		String dbpath = "jdbc:h2:~/test";
+		String dbpath = args[0];
 
 		try
 		{
@@ -51,7 +69,6 @@ public class ApplicationMain extends User
 						ResultSet rs = stmt.executeQuery( "SELECT * FROM User WHERE email='" + user_name + "' " +
 								" AND password='" + password + "'");
 
-						// FIXME test for no data available
 						rs.next();
 						// check login info
 						if (user_name.equals(rs.getString("EMAIL")) && password.equals(rs.getString("PASSWORD")))
@@ -61,7 +78,6 @@ public class ApplicationMain extends User
 
 								ResultSet personalInfo = stmt.executeQuery("SELECT companyID, Name, Email, Hiring " +
 										"FROM Company WHERE Email='" + user_name + "'");
-								// FIXME test for no data available
 								personalInfo.next();
 
 								employer.setCompanyID(Integer.valueOf(personalInfo.getInt("companyID")));
@@ -79,7 +95,6 @@ public class ApplicationMain extends User
 							// type is employee
 							else {
 								ResultSet personalInfo = stmt.executeQuery("SELECT * FROM Employee WHERE Email='" + user_name + "'");
-								// FIXME test for no data available
 								personalInfo.next();
 
 								// store some user information locally
@@ -94,9 +109,6 @@ public class ApplicationMain extends User
 								employee.setConnection(con);
 								employee.userLoop(employee.getName(), String.valueOf(employee.getId()), false, con );
 							}
-
-						} else {
-							// FIXME will error before getting here
 						}
 
 
@@ -143,65 +155,7 @@ public class ApplicationMain extends User
 			System.out.println("Error: " + e.getMessage());
 		}
 	}
-        /*Connection con = null;
 
-        try
-        {
-            // Connect to the database
-            Class.forName("org.h2.Driver");
-            con = DriverManager.getConnection( "jdbc:h2:file:C:/Users/Aziz/OneDrive/Documents/workspace/Linkedin/db/linkedin", "admin", "admin" );
-            Statement stmt = con.createStatement();
-
-            // Below are a few example queries that will be used in functions in the fully-implemented release
-            // Get a list of all companies that are currently hiring and print out their information
-            ResultSet rs = stmt.executeQuery( "SELECT * FROM Company WHERE hiring='true' ORDER BY name ");
-            while ( rs.next() )
-            {
-                int companyID = rs.getInt( "companyID" );
-                String name = rs.getString( "name" );
-                String desc = rs.getString( "description" );
-                System.out.println( "ID: " + companyID + ", Name: " + name + ", Description: " + desc );
-            }
-
-            // a user updates their profile to indicate they are no longer searching for a job
-            int userID = 3; // this will be pulled from the database when the user logs in
-            stmt.executeUpdate( "UPDATE User SET searching='false' WHERE ID='" + userID + "'" );
-
-            // User A (id=1) wants to see user B's(id=2) skills, and potentially endorse one
-            // query for user B's skills:
-            int A_ID = 1;
-            int B_ID = 2;
-            rs = stmt.executeQuery( "SELECT name, description FROM Skill WHERE userID='2'" );
-            while( rs.next() )
-            {
-                String name = rs.getString( "name" );
-                String desciption = rs.getString( "description" );
-                System.out.println( "Skill: " + name + ", Description: " + desciption );
-            }
-            // User A sees B's skill and wants to endorse user B's skill in Java:
-            stmt.executeUpdate( "INSERT INTO Endorses VALUES ('" + A_ID + "', '" + B_ID + "', 'Java'"  );
-
-            // A user wants a listing of all of Google's California offices
-            rs = stmt.executeQuery( "SELECT C.companyID, Name, city, state " +
-                                        "FROM Company AS C NATURAL JOIN Office " +
-                                        "WHERE State='CA' AND Name='Google' ;" );
-            while( rs.next() )
-            {
-                String name = rs.getString( "Name" );
-                String city = rs.getString( "City" );
-                String state = rs.getString( "State" );
-                System.out.println( "Name: " + name + ", City: " + city + ", State: " + state );
-            }
-
-            // Again, the example queries above will be separated into functions for the final implementation
-            // For more examples, including some complex ones, see section 3.1 of our phase 2 write-up
-
-            // close the connect to the database
-            if ( con != null ) con.close();
-
-        } catch ( Exception e ) {
-            System.out.println("Error: " + e.getMessage());
-        }*/
         public static void setInput(File input){
         	try {
 				inst = new Scanner(input);
