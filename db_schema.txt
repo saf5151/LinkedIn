@@ -1,4 +1,14 @@
-// This is the current implementation of our H2 database with SQL queries we used to create each table, and each index
+########################################################################
+# filename: db_schema.txt                                              #
+# author: Swan Ronson                                                  #
+# date: 7/30/17                                                        #
+#                                                                      #
+# This file contains all of the commands used to build the database.   #
+#                                                                      #
+########################################################################
+
+########################## Tables and Indices ##########################
+
 CREATE TABLE User (
   email VARCHAR( 100 ),
   password VARCHAR( 20 ),
@@ -141,8 +151,13 @@ CREATE TABLE Connect (
   FOREIGN KEY ( IDB ) REFERENCES Employee
 );
 
+################################ Users #################################
+
 CREATE USER Company PASSWORD 'Company';
 CREATE USER Employee PASSWORD 'Employee';
+
+
+###################### Roles and User Permission #######################
 
 CREATE ROLE General_Employee;
 GRANT ALL
@@ -162,6 +177,8 @@ TO General_Company;
 
 GRANT General_Employee TO Employee;
 GRANT General_Company TO Company;
+
+################################ Views #################################
 
 CREATE VIEW Anonymous_Review AS
 SELECT Company.CompanyID, Name, Review.description, Recommend

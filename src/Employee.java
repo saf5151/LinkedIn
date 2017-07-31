@@ -1,3 +1,11 @@
+/**
+ * filename: Employee.java
+ * author: Swan Ronson
+ * date: 7/30/17
+ *
+ * The Employee class specifies all of the functionality that is exclusive to Employees
+ */
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Statement;
@@ -6,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Employee extends User {
+	/** These fields correspond to the values of a row in the db, kept locally to avoid extra querying */
 	private int id, age;
 	private String email;
 	private String almaMater;
@@ -151,7 +160,7 @@ public class Employee extends User {
     }
 
     /**
-     * @param companyID
+     * @param companyID: id of the company you wish to follow
      * @return: true on success, false otherwise
      */
     public boolean followCompany( String companyID )
@@ -170,9 +179,9 @@ public class Employee extends User {
     }
 
     /**
-     * @param companyID
-     * @param description
-     * @param recommended
+     * @param companyID: id of the company you want to review
+     * @param description: description of you opinion of the company
+     * @param recommended: true if you recommend the company, false otherwise
      * @return: true on success, false otherwise
      */
     public boolean reviewCompany( String companyID, String description, boolean recommended )
@@ -191,8 +200,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param theirID
-     * @param skillName
+     * @param theirID: id of the employee whose skill you want to endorse
+     * @param skillName: name of the skill that you are endorsing
      * @return: true on success, false otherwise
      */
     public boolean endorseSkill( String theirID, String skillName )
@@ -211,8 +220,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param name
-     * @param description
+     * @param name: name of the skill you have
+     * @param description: description of your experience with the skill
      * @return: true on success, false otherwise
      */
     public boolean addSkill( String name, String description )
@@ -231,7 +240,7 @@ public class Employee extends User {
     }
 
     /**
-     * @param name
+     * @param name: name of the skill you are deleting
      * @return: true on success, false otherwise
      */
     public boolean deleteSkill( String name )
@@ -249,9 +258,9 @@ public class Employee extends User {
     }
 
     /**
-     * @param role
-     * @param companyID
-     * @param description
+     * @param role: role you played in your job, ex: Software Developer
+     * @param companyID: id of the company you worked at
+     * @param description: description of the work you did there
      * @return: true on success, false otherwise
      */
     public boolean addPastJob( String role, String companyID, String description )
@@ -270,8 +279,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param role
-     * @param companyID
+     * @param role: role you played at your job, ex: Software Developer
+     * @param companyID: id of the company you worked at
      * @return: true on success, false otherwise
      */
     public boolean deletePastJob( String role, String companyID )
@@ -320,13 +329,6 @@ public class Employee extends User {
         return email;
     }
 
-    public int getAge() {
-    	/* 
-    	 * get dob from db
-    	 */
-    	return age;
-    }
-
     public Connection getCon()
 	{
 		return this.con;
@@ -344,6 +346,7 @@ public class Employee extends User {
         return search;
     }
 
+    /** SETTERS */
     public void setId( Integer id )
 	{
 		this.id = id;

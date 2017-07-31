@@ -1,8 +1,16 @@
+/**
+ * filename: Employer.java
+ * author: Swan Ronson
+ * date: 7/30/17
+ *
+ * The Employer class contains all of the functionality that is exclusive to a Company
+ */
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class Employer extends User {
+    /** These fields correspond to the values of a row in the db, kept locally to avoid extra querying */
     private int companyID;
     private String name;
     private String description;
@@ -99,9 +107,9 @@ public class Employer extends User {
     }
 
     /**
-     * @param role
-     * @param salary
-     * @param description
+     * @param role: the role of your new job, ex: Software Developer
+     * @param salary: the amount you will pay anually for this job
+     * @param description: short description of the job
      * @return: true on success, false otherwise
      */
     public boolean postJob(String role, int salary, String description) {
@@ -119,7 +127,7 @@ public class Employer extends User {
     }
 
     /**
-     * @param role
+     * @param role: role of your new job
      * @return: true on success, false otherwise
      */
     public boolean deleteJob(String role) {
@@ -137,8 +145,8 @@ public class Employer extends User {
     }
 
     /**
-     * @param city
-     * @param state
+     * @param city: city the office is in
+     * @param state: abbreviation for the State that the office is in
      * @return: true on success, false otherwise
      */
     public boolean addOffice(String city, String state) {
@@ -156,8 +164,8 @@ public class Employer extends User {
     }
 
     /**
-     * @param city
-     * @param state
+     * @param city: city of the office you are deleting
+     * @param state: abbreviation for the state the office is i
      * @return: true on success, false otherwise
      */
     public boolean deleteOffice(String city, String state) {
@@ -175,7 +183,7 @@ public class Employer extends User {
     }
 
 
-    // GETTERS
+    /** GETTERS */
 
     public int getCompanyID() {
         return this.companyID;
@@ -201,7 +209,7 @@ public class Employer extends User {
         return this.con;
     }
 
-    // setters
+    /** SETTERS */
 
     public void setCompanyID(int companyID) {
         this.companyID = companyID;
