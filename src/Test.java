@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import DataGenerator.*;
 //import org.h2.tools.Server;
  
 public class Test {
@@ -19,7 +20,7 @@ public class Test {
     	
     	int ID = 0;
     	
-    	String fileName = "Test.EmployeeRegister";
+    	String fileName = DataData.PATH + "\\Tests\\EmployeeRegister";
     	File input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
@@ -32,8 +33,9 @@ public class Test {
     		return;
     	}
     	ID = rs.getInt("userID");
+    	con.close();
     	
-    	fileName = "Test.EmployeeModify";
+    	fileName = DataData.PATH + "\\Tests\\EmployeeModify";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
@@ -45,11 +47,14 @@ public class Test {
     	if(!checkS.equals("Rochester")){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.EmployeePhone";
+    	fileName = DataData.PATH + "\\Tests\\EmployeePhone";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from phone where userID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
@@ -57,88 +62,115 @@ public class Test {
     	if(rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.MakeConnection";
+    	fileName = DataData.PATH + "\\Tests\\MakeConnection";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from connect where AID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.Follow";
+    	fileName = DataData.PATH + "\\Tests\\Follow";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from follows where userID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.Review";
+    	fileName = DataData.PATH + "\\Tests\\Review";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from review where userID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.AddSkill";
+    	fileName = DataData.PATH + "\\Tests\\AddSkill";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from skill where userID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.DeleteSkill";
+    	fileName = DataData.PATH + "\\Tests\\DeleteSkill";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from skill where userID=" + ID);
     	if(rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.AddPastJob";
+    	fileName = DataData.PATH + "\\Tests\\AddPastJob";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from past_job where userID=" + ID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.DeletePastJob";
+    	fileName = DataData.PATH + "\\Tests\\DeletePastJob";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from past_job where userID=" + ID);
     	if(rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
     	
     	int CID = 0;
     	
-    	fileName = "Test.CompanyRegister";
+    	fileName = DataData.PATH + "\\Tests\\CompanyRegister";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from company where email='bear@gmail.com'");
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     		return;
     	}
     	CID = rs.getInt("userID");
+    	con.close();
     	
-    	fileName = "Test.CompanyPhone";
+    	fileName = DataData.PATH + "\\Tests\\CompanyPhone";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from comp_phone where companyID=" + CID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
@@ -146,44 +178,57 @@ public class Test {
     	if(rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.EmployeeModify";
+    	fileName = DataData.PATH + "\\Tests\\EmployeeModify";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from company where email='bear@gmail.com'");
     	rs.next();
     	checkS = rs.getString("description");
     	if(!checkS.equals("A company for bears")){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
-    	fileName = "Test.AddAssociate";
+    	fileName = DataData.PATH + "\\Tests\\AddAssociate";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from associates where companyID=" + CID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
 		
-		fileName = "Test.PostJob";
+		fileName = DataData.PATH + "\\Tests\\PostJob";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from job where companyID=" + CID);
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
 		
-		fileName = "Test.DeleteJob";
+		fileName = DataData.PATH + "\\Tests\\DeleteJob";
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from job where companyID=" + CID);
     	if(rs.next()){
     		System.out.println("Error at " + fileName);
     	}
+    	con.close();
     	
     }
 }
