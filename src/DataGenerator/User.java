@@ -14,7 +14,7 @@ public class User extends Entry{
 		numUs++;
 		String password = "";
 		for(int i = 0; i < 8; i++){
-			password += ('a' + rand.nextInt(25));
+			password += (char)('a' + rand.nextInt(25));
 		}
 		
 		String searching = "";
@@ -24,8 +24,9 @@ public class User extends Entry{
 			searching = "Company";
 		}
 		
+		email = new String();
+		email = "";
 		int num = numUs + 300;
-		String email = "";
 		int space = 1;
 		char n = 'a';
 		while(num > 0){
@@ -50,6 +51,6 @@ public class User extends Entry{
 	}
 
 	public String getTable() {
-		return "Employee";
+		return "User";
 	}
 }

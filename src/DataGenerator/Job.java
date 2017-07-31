@@ -15,7 +15,7 @@ public class Job extends Entry{
 		int salary = rand.nextInt(105000) + 15000;
 		String description = Jackson.saySomething();
 		
-		out = "(" + ID + ",'" + role + "'," + salary + "," + description + "')";
+		out = "(" + ID + ",'" + role + "'," + salary + ",'" + description + "')";
 		return out;
 	}
 	

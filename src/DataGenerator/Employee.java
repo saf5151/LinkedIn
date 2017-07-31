@@ -33,7 +33,7 @@ public class Employee extends Entry implements Reader{
         String line = null;
 		
 		try {
-			String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Names.txt";
+			String fileName = DataData.PATH + "\\DataGenerator\\Names.txt";
             FileReader fileReader = 
                 new FileReader(fileName);
 
@@ -51,7 +51,7 @@ public class Employee extends Entry implements Reader{
             
             bufferedReader.close();
 			
-			fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Colleges.txt";
+			fileName = DataData.PATH + "\\DataGenerator\\Colleges.txt";
             fileReader = 
                 new FileReader(fileName);
 
@@ -66,7 +66,7 @@ public class Employee extends Entry implements Reader{
             
             bufferedReader.close();
             
-			fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Majors.txt";
+			fileName = DataData.PATH + "\\DataGenerator\\Majors.txt";
             fileReader = 
                 new FileReader(fileName);
 
@@ -91,8 +91,8 @@ public class Employee extends Entry implements Reader{
 		String out;
 		Random rand = new Random();
 		
-		numUsers++;
 		int ID = numUsers;
+		numUsers++;
 		String name = getFirst() + " " + getLast();
 		int gpa1 = rand.nextInt(3) + 1;
 		int gpa2 = rand.nextInt(10);

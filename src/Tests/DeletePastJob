@@ -4,3 +4,4 @@ blahblah
 deleteSkill -name singing
 deletePastJob -role singer -id 2
 quit
+4

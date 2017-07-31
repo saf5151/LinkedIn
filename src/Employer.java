@@ -1,16 +1,8 @@
-/**
- * filename: Employer.java
- * author: Swan Ronson
- * date: 7/30/17
- *
- * The Employer class contains all of the functionality that is exclusive to a Company
- */
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.Scanner;
 
 public class Employer extends User {
-    /** These fields correspond to the values of a row in the db, kept locally to avoid extra querying */
     private int companyID;
     private String name;
     private String description;
@@ -25,9 +17,6 @@ public class Employer extends User {
      * @return: true for completed registration, false for failed registration
      */
     public boolean employerRegisteration(String email, String password) {
-        Scanner Name = new Scanner(System.in);
-        Scanner Description = new Scanner(System.in);
-        Scanner Hiring = new Scanner(System.in);
         this.email = email;
         //System.out.println("Got it from" + email);
 		/* 
@@ -37,11 +26,11 @@ public class Employer extends User {
         	//System.out.println("Before");
 			Statement stmt = this.con.createStatement();
 	        System.out.println("Company Name: ");
-	        name = Name.next();
+	        name = ApplicationMain.inst.next();
 	        System.out.println("Description: ");
-	        description = Description.next();
+	        description = ApplicationMain.inst.next();
 	        System.out.println("Currently Hiring (y/n): ");
-	        hiringStr = Hiring.next();
+	        hiringStr = ApplicationMain.inst.next();
 	        if (hiringStr.equals("y") || hiringStr.equals("Y")) {
 	            hiring = true;
 	        } else {
@@ -107,9 +96,9 @@ public class Employer extends User {
     }
 
     /**
-     * @param role: the role of your new job, ex: Software Developer
-     * @param salary: the amount you will pay anually for this job
-     * @param description: short description of the job
+     * @param role
+     * @param salary
+     * @param description
      * @return: true on success, false otherwise
      */
     public boolean postJob(String role, int salary, String description) {
@@ -127,7 +116,7 @@ public class Employer extends User {
     }
 
     /**
-     * @param role: role of your new job
+     * @param role
      * @return: true on success, false otherwise
      */
     public boolean deleteJob(String role) {
@@ -145,8 +134,8 @@ public class Employer extends User {
     }
 
     /**
-     * @param city: city the office is in
-     * @param state: abbreviation for the State that the office is in
+     * @param city
+     * @param state
      * @return: true on success, false otherwise
      */
     public boolean addOffice(String city, String state) {
@@ -164,8 +153,8 @@ public class Employer extends User {
     }
 
     /**
-     * @param city: city of the office you are deleting
-     * @param state: abbreviation for the state the office is i
+     * @param city
+     * @param state
      * @return: true on success, false otherwise
      */
     public boolean deleteOffice(String city, String state) {
@@ -183,7 +172,7 @@ public class Employer extends User {
     }
 
 
-    /** GETTERS */
+    // GETTERS
 
     public int getCompanyID() {
         return this.companyID;
@@ -209,7 +198,7 @@ public class Employer extends User {
         return this.con;
     }
 
-    /** SETTERS */
+    // setters
 
     public void setCompanyID(int companyID) {
         this.companyID = companyID;

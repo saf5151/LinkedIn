@@ -1,11 +1,3 @@
-/**
- * filename: Employee.java
- * author: Swan Ronson
- * date: 7/30/17
- *
- * The Employee class specifies all of the functionality that is exclusive to Employees
- */
-
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.Statement;
@@ -14,7 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 public class Employee extends User {
-	/** These fields correspond to the values of a row in the db, kept locally to avoid extra querying */
 	private int id, age;
 	private String email;
 	private String almaMater;
@@ -39,14 +30,6 @@ public class Employee extends User {
 		DateFormat df = new SimpleDateFormat("MM/dd/yyyy"); 
 		java.util.Date dobDate;
 		SimpleDateFormat dt1 = new SimpleDateFormat("YYYY-MM-DD");
-		Scanner Name = new Scanner(System.in);
-		Scanner AlmaMater = new Scanner(System.in);
-		Scanner Major = new Scanner(System.in);
-		Scanner Gpa = new Scanner(System.in);
-		Scanner Phone = new Scanner(System.in);
-		Scanner Dob = new Scanner(System.in);
-		Scanner Location = new Scanner(System.in);
-		Scanner Search = new Scanner(System.in);
 		
 		//System.out.println("Got it from" + email);
 		/* 
@@ -55,29 +38,29 @@ public class Employee extends User {
 		try {
 			Statement stmt = this.con.createStatement();
 			System.out.println("Full Name: ");
-			name = Name.next();
+			name = ApplicationMain.inst.next();
 			System.out.println("Alma Mater: ");
-			almaMater = AlmaMater.next();
+			almaMater = ApplicationMain.inst.next();
 			System.out.println("Major: ");
-			major = Major.next();
+			major = ApplicationMain.inst.next();
 			System.out.println("GPA: ");
-			gpaStr = Gpa.next();
+			gpaStr = ApplicationMain.inst.next();
 			gpa = Double.parseDouble(gpaStr);
 			System.out.println("Phone Number (seperate by comma if multiple): ");
-			phone = (Phone.next()).split(",");
+			phone = (ApplicationMain.inst.next()).split(",");
 			System.out.println("Date of Birth (format: YYYY-MM-DD): ");
-			dob = Dob.next();
+			dob = ApplicationMain.inst.next();
 			//dobDate = df.parse(dob);
 			//System.out.println(dt1.format(dobDate));
 			//dob = dt1.format(dobDate);
 			//System.out.println(dob);
 			System.out.println("Location (format: city,state): ");
-			location = (Location.next()).split(",");
+			location = (ApplicationMain.inst.next()).split(",");
 			city = location[0];
 			state = location[1];
 			//System.out.println(city);
 			System.out.println("Would you like to be discoverable by employers(y/n)? ");
-			searchStr = Search.next();
+			searchStr = ApplicationMain.inst.next();
 			if (searchStr.equals("y") || searchStr.equals("Y")) {
 				search = true;
 			}else {
@@ -160,7 +143,7 @@ public class Employee extends User {
     }
 
     /**
-     * @param companyID: id of the company you wish to follow
+     * @param companyID
      * @return: true on success, false otherwise
      */
     public boolean followCompany( String companyID )
@@ -179,9 +162,9 @@ public class Employee extends User {
     }
 
     /**
-     * @param companyID: id of the company you want to review
-     * @param description: description of you opinion of the company
-     * @param recommended: true if you recommend the company, false otherwise
+     * @param companyID
+     * @param description
+     * @param recommended
      * @return: true on success, false otherwise
      */
     public boolean reviewCompany( String companyID, String description, boolean recommended )
@@ -200,8 +183,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param theirID: id of the employee whose skill you want to endorse
-     * @param skillName: name of the skill that you are endorsing
+     * @param theirID
+     * @param skillName
      * @return: true on success, false otherwise
      */
     public boolean endorseSkill( String theirID, String skillName )
@@ -220,8 +203,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param name: name of the skill you have
-     * @param description: description of your experience with the skill
+     * @param name
+     * @param description
      * @return: true on success, false otherwise
      */
     public boolean addSkill( String name, String description )
@@ -240,7 +223,7 @@ public class Employee extends User {
     }
 
     /**
-     * @param name: name of the skill you are deleting
+     * @param name
      * @return: true on success, false otherwise
      */
     public boolean deleteSkill( String name )
@@ -258,9 +241,9 @@ public class Employee extends User {
     }
 
     /**
-     * @param role: role you played in your job, ex: Software Developer
-     * @param companyID: id of the company you worked at
-     * @param description: description of the work you did there
+     * @param role
+     * @param companyID
+     * @param description
      * @return: true on success, false otherwise
      */
     public boolean addPastJob( String role, String companyID, String description )
@@ -279,8 +262,8 @@ public class Employee extends User {
     }
 
     /**
-     * @param role: role you played at your job, ex: Software Developer
-     * @param companyID: id of the company you worked at
+     * @param role
+     * @param companyID
      * @return: true on success, false otherwise
      */
     public boolean deletePastJob( String role, String companyID )
@@ -329,6 +312,13 @@ public class Employee extends User {
         return email;
     }
 
+    public int getAge() {
+    	/* 
+    	 * get dob from db
+    	 */
+    	return age;
+    }
+
     public Connection getCon()
 	{
 		return this.con;
@@ -346,7 +336,6 @@ public class Employee extends User {
         return search;
     }
 
-    /** SETTERS */
     public void setId( Integer id )
 	{
 		this.id = id;

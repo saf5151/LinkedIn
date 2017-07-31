@@ -13,4 +13,5 @@ public class DataData {
 	public static int COLLEGES = 50;
 	public static int MAJORS = 100;
 	public static int COMPS = 100;
+	public static String PATH = "C:\\Users\\Owner\\workspace\\DataMgmt\\src";
 }

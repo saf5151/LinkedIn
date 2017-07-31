@@ -25,7 +25,7 @@ public class Role {
         String line = null;
 		
 		try {
-			String fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role1";
+			String fileName = DataData.PATH + "\\DataGenerator\\Role1";
             FileReader fileReader = 
                 new FileReader(fileName);
 
@@ -40,7 +40,7 @@ public class Role {
             
             bufferedReader.close();
             
-            fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role2";
+            fileName = DataData.PATH + "\\DataGenerator\\Role2";
             fileReader = new FileReader(fileName);
 
             bufferedReader = new BufferedReader(fileReader);
@@ -53,7 +53,7 @@ public class Role {
             
             bufferedReader.close();
             
-            fileName = "C:\\Users\\Scott\\Dropbox\\CSCI 320\\LinkedIn\\src\\DataGenerator\\Role3";
+            fileName = DataData.PATH + "\\DataGenerator\\Role3";
             fileReader = new FileReader(fileName);
 
             bufferedReader = new BufferedReader(fileReader);

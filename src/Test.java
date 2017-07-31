@@ -13,13 +13,19 @@ public class Test {
      */
     public static void main(String[] args) throws Exception
     {
+    	String dbpath = "jdbc:h2:~/test";
+    	Class.forName("org.h2.Driver");
+		
+    	
     	int ID = 0;
     	
-    	Statement stmt = null;
     	String fileName = "Test.EmployeeRegister";
     	File input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	
+    	Connection con = DriverManager.getConnection( dbpath, "admin", "admin");
+		Statement stmt = con.createStatement();
     	ResultSet rs = stmt.executeQuery("select * from employee where email='erb8134@gmail.com'");
     	if(!rs.next()){
     		System.out.println("Error at " + fileName);
@@ -31,6 +37,8 @@ public class Test {
     	input = new File(fileName);
     	ApplicationMain.setInput(input);
     	ApplicationMain.main(null);
+    	con = DriverManager.getConnection( dbpath, "admin", "admin");
+		stmt = con.createStatement();
     	rs = stmt.executeQuery("select * from employee where email='erb8134@gmail.com'");
     	rs.next();
     	String checkS = rs.getString("city");

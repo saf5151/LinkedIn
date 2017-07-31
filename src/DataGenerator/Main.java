@@ -5,9 +5,10 @@ import java.sql.Statement;
 import java.util.Random;
 
 public class Main {
+	public static int count = 0;
 	
 	public static void setup(Statement stmt){
-		System.out.println("Data generator started");
+		System.out.println("Generating Data");
 		Entry[] things = new Entry[10];
 		int[] amount = new int[10];
 		things[0] = new Phone();
@@ -52,7 +53,6 @@ public class Main {
 			add(user,stmt);
 			add(company,stmt);
 		}
-		System.out.println("Finished Company");
 		
 		user.setType(0);
 		for(int i = 0; i < 500; i++){
@@ -77,11 +77,20 @@ public class Main {
 		}
 	}
 	public static void add(Entry in, Statement stmt){
+		
 		String query = "insert into " + in.getTable() + " values " + in.value();
 		try {
 			stmt.executeUpdate(query);
 		} catch (SQLException e) {
-			System.out.println("sql error");
+			if(e.getErrorCode() != 23505){
+				if(count < 5){
+					count++;
+					System.out.println("sql error");
+					System.out.println(query);
+					System.out.println(e.getErrorCode());
+				}
+			}
 		}
+		
 	}
 }
